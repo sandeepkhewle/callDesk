@@ -1,0 +1,73 @@
+Caller desk API Flow & Integration Guide
+
+1. Overview
+The Caller desk API is a cloud telephony solution designed to automate call management, member handling, and real-time event tracking through Webhooks and RESTful APIs.
+-----------------------------------------------------------------------------
+2. Authentication
+All API requests require an Auth Code (AUTH code).
+
+Method: Passed as a parameter in form-data for POST requests or as a query parameter for GET requests.
+
+Security: Requires HTTPS. Calls over plain HTTP will fail.
+
+Source: Obtainable from the Integration Settings in the Caller desk Dashboard.
+-------------------------------------------------------------------------------
+3. Core API Flow
+The typical integration flow follows these three phases:
+
+Phase A: Setup (Member & Group Management)
+Before initiating calls, you must set up your team and call routing logic.
+
+Add Members: Create agents who will receive calls.
+
+Endpoint: POST /api/addmember_v2
+
+Create Call Groups: Group members based on departments (e.g., Sales, Support).
+
+Endpoint: POST /api/createcallgroup_v2
+
+Assign Members to Groups: Define which agent belongs to which routing group.
+
+Phase B: Execution (Triggering Calls)
+Once the setup is complete, you can initiate communication.
+
+Click-to-Call (C2C): Trigger a call between a member and a customer.
+
+Flow: Your system calls the API → Callerdesk dials the Agent → Once the agent picks up, Callerdesk dials the Customer.
+
+Endpoint: GET /api/click_to_call
+
+Dynamic Routing: Use the Call Routing API to decide where a call should go based on real-time data from your CRM.
+
+Phase C: Data Retrieval & Webhooks (Post-Call)
+After a call ends, data must be synced back to your CRM.
+
+Webhook Notification (Recommended): Callerdesk pushes a JSON payload to your server immediately after a call ends.
+
+Events: call_report, live_call.
+
+Manual Fetch: If webhooks are missed, pull call logs manually.
+
+Endpoint: POST /api/call_report_v2
+--------------------------------------------------------------------------
+5. Implementation Roadmap
+White-list IP: Ensure your server can receive requests from Callerdesk IPs.
+
+Validation: Use the 2.2 Test & Validate Webhook section in the docs to send sample payloads to a tool like Webhook.site.
+
+Error Handling: Monitor for common status codes:
+
+200 OK: Success.
+
+401: Invalid Auth Code.
+
+404: Resource (Member/Group) not found.
+----------------------------------------------------------------------------
+6. Important Endpoints Summary
+Member Control: getmemberlist_V2, deletemember_v2
+
+Calling: click_to_call, click2call_via_memberid
+
+Reporting: call_report_v2, live_call_api
+
+Utility: block_number, upload_voice_prompta	
