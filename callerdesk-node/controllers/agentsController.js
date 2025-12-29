@@ -1,6 +1,13 @@
 const agentsService = require('../services/agentsService');
 
 class AgentsController {
+    /**
+     * Creates a new agent.
+     * @param {Object} req.body - Request body
+     * @param {string} req.body.authcode - Authentication code for API access (API key)
+     * @param {string} req.body.name - Name of the agent
+     * @param {string} req.body.phone - Phone number of the agent
+     */
     async createAgent(req, res) {
         try {
             console.log("Creating new member", req.body);
@@ -19,6 +26,10 @@ class AgentsController {
         }
     }
 
+    /**
+     * Updates an existing agent.
+     * @param {Object} req.body - Request body (full body passed to service)
+     */
     async updateAgent(req, res) {
         try {
             console.log("Updating member", req.body);
@@ -34,6 +45,13 @@ class AgentsController {
         }
     }
 
+    /**
+     * Retrieves a list of agents.
+     * @param {Object} req.body - Request body
+     * @param {string} req.body.authcode - Authentication code for API access (API key)
+     * @param {number} [req.body.page=1] - Page number for pagination
+     * @param {number} [req.body.limit=50] - Number of agents per page
+     */
     async getAgents(req, res) {
         try {
             const { authcode, page = 1, limit = 50 } = req.body;
@@ -49,6 +67,12 @@ class AgentsController {
         }
     }
 
+    /**
+     * Deletes an agent.
+     * @param {Object} req.body - Request body
+     * @param {string} req.body.authcode - Authentication code for API access (API key)
+     * @param {string} req.body.member_id - ID of the agent to delete
+     */
     async deleteAgent(req, res) {
         try {
             const { authcode, member_id } = req.body;

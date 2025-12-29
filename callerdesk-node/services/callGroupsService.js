@@ -5,12 +5,11 @@ const API_KEY = process.env.CALLERDESK_API_KEY;
 
 class CallGroupsService {
     async createCallGroup(callGroupData) {
-        const { authcode, name, ivrCode } = callGroupData;
-
+        const { authcode, name, deskphone_id } = callGroupData;
         const response = await axios.post(`${BASE_URL}/createcallgroup`, {
             authcode,
             group_name: name,
-            deskphone_id: ivrCode
+            deskphone_id: deskphone_id
         }, {
             headers: {
                 'Authorization': `${API_KEY}`,

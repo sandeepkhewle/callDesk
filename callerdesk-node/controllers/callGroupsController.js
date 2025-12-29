@@ -1,12 +1,19 @@
 const callGroupsService = require('../services/callGroupsService');
 
 class CallGroupsController {
+    /**
+     * Creates a new call group.
+     * @param {Object} req.body - Request body
+     * @param {string} req.body.authcode - Authentication code for API access (API key)
+     * @param {string} req.body.name - Name of the call group
+     * @param {string} req.body.deskphone_id - ID of the deskphone associated with the group
+     */
     async createCallGroup(req, res) {
         try {
             console.log("Creating new call group", req.body);
-            const { authcode, name, phone } = req.body;
+            const { authcode, name, deskphone_id } = req.body;
 
-            const data = await callGroupsService.createCallGroup({ authcode, name, phone });
+            const data = await callGroupsService.createCallGroup({ authcode, name, deskphone_id });
 
             res.status(201).json(data);
         } catch (error) {
@@ -19,6 +26,10 @@ class CallGroupsController {
         }
     }
 
+    /**
+     * Updates an existing call group.
+     * @param {Object} req.body - Request body (full body passed to service)
+     */
     async updateCallGroup(req, res) {
         try {
             console.log("Updating call group", req.body);
@@ -33,6 +44,13 @@ class CallGroupsController {
         }
     }
 
+    /**
+     * Retrieves a list of call groups.
+     * @param {Object} req.body - Request body
+     * @param {string} req.body.authcode - Authentication code for API access (API key)
+     * @param {number} [req.body.page=1] - Page number for pagination
+     * @param {number} [req.body.limit=50] - Number of call groups per page
+     */
     async getCallGroups(req, res) {
         try {
             const { authcode, page = 1, limit = 50 } = req.body;
@@ -47,10 +65,16 @@ class CallGroupsController {
         }
     }
 
+    /**
+     * Deletes a call group.
+     * @param {Object} req.body - Request body
+     * @param {string} req.body.authcode - Authentication code for API access (API key)
+     * @param {string} req.body.group_id - ID of the call group to delete
+     */
     async deleteCallGroup(req, res) {
         try {
-            const { authcode, member_id } = req.body;
-            await callGroupsService.deleteCallGroup({ authcode, member_id });
+            const { authcode, group_id } = req.body;
+            await callGroupsService.deleteCallGroup({ authcode, group_id });
 
             res.status(204).send();
         } catch (error) {

@@ -13,7 +13,7 @@ router.post('/create', upload.none(), agentsController.createAgent);
 router.post('/update', upload.none(), agentsController.updateAgent);
 
 // Get all agents
-router.post('/', upload.none(), agentsController.getAgents);
+router.post('/list', upload.none(), agentsController.getAgents);
 
 // Delete agent
 router.post('/delete', upload.none(), agentsController.deleteAgent);

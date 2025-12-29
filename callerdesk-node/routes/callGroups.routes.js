@@ -13,7 +13,7 @@ router.post('/create', upload.none(), callGroupsController.createCallGroup);
 router.post('/update', upload.none(), callGroupsController.updateCallGroup);
 
 // Get all call groups
-router.post('/', upload.none(), callGroupsController.getCallGroups);
+router.post('/list', upload.none(), callGroupsController.getCallGroups);
 
 // Delete call group
 router.post('/delete', upload.none(), callGroupsController.deleteCallGroup);

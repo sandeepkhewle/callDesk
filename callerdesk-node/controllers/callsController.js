@@ -1,0 +1,108 @@
+const callsService = require('../services/callsService');
+
+class CallsController {
+    /**
+     * Initiates a click-to-call.
+     * @param {Object} req.body - Request body
+     * @param {string} req.body.calling_party_a - Phone number of the caller (agent)
+     * @param {string} req.body.calling_party_b - Phone number of the receiver
+     * @param {string} req.body.deskphone - Agent's deskphone number
+     * @param {string} req.body.authcode - Authentication code for API access (API key)
+     */
+    async clickToCall(req, res) {
+        try {
+            console.log("/clickToCall", req.body);
+
+            //calling_party_a is the caller(agent) number
+            //calling_party_b is the receiver number
+            //deskphone is the agent deskphone number
+            const { calling_party_a, calling_party_b, deskphone, authcode } = req.body;
+
+            const data = await callsService.clickToCall({ calling_party_a, calling_party_b, deskphone, authcode });
+
+            res.json(data);
+        } catch (error) {
+            let statusCode = 500;
+            res.status(statusCode).json({
+                error: 'Failed to initiate click to call',
+                details: error.message
+            });
+        }
+    }
+
+    /**
+     * Initiates a click-to-call via a call group.
+     * @param {Object} req.body - Request body
+     * @param {string} req.body.calling_party_a - Phone number of the caller (agent)
+     * @param {string} req.body.calling_party_b - Phone number of the receiver
+     * @param {string} req.body.deskphone - Agent's deskphone number
+     * @param {string} req.body.authcode - Authentication code for API access (API key)
+     * @param {string} req.body.group_name - Name of the call group
+     */
+    async clickToCallViaCallGroup(req, res) {
+        try {
+            console.log("/clickToCallViaCallGroup", req.body);
+
+            //calling_party_a is the caller(agent) number
+            //calling_party_b is the receiver number
+            //deskphone is the agent deskphone number
+            //authcode is the authentication code
+            //group_name is the name of the call group
+            const { calling_party_a, calling_party_b, deskphone, authcode, group_name } = req.body;
+
+            const data = await callsService.clickToCallViaCallGroup({ calling_party_a, calling_party_b, deskphone, authcode, group_name });
+
+            res.json(data);
+        } catch (error) {
+            let statusCode = 500;
+            res.status(statusCode).json({
+                error: 'Failed to initiate click to call via call group',
+                details: error.message
+            });
+        }
+    }
+
+    /**
+     * Retrieves call reports.
+     * @param {Object} req.body - Request body
+     * @param {string} req.body.authcode - Authentication code for API access (API key)
+     */
+    async callReports(req, res) {
+        try {
+            console.log("calls reports", req.body);
+
+            const { authcode } = req.body;
+
+            const data = await callsService.callReport(authcode);
+
+            res.json(data);
+        } catch (error) {
+            res.status(error.response?.status || 500).json({
+                error: 'Failed to fetch call reports',
+                details: error.message
+            });
+        }
+    }
+
+    /**
+     * Retrieves the list of IVR numbers.
+     * @param {Object} req.body - Request body
+     * @param {string} req.body.authcode - Authentication code for API access (API key)
+     */
+    async getIvrNumbersList(req, res) {
+        try {
+            const { authcode } = req.body;
+
+            const data = await callsService.getIvrNumbersList(authcode);
+
+            res.json(data);
+        } catch (error) {
+            res.status(error.response?.status || 500).json({
+                error: 'Failed to fetch IVR number list',
+                details: error.message
+            });
+        }
+    }
+}
+
+module.exports = new CallsController();

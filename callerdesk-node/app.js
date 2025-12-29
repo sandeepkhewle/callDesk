@@ -4,7 +4,8 @@ const express = require('express');
 // Import route modules
 const agentsRoutes = require('./routes/agents.routes');
 const callGroupsRoutes = require('./routes/callGroups.routes');
-const axios = require('axios');
+const callsRoutes = require('./routes/calls.routes');
+const dashRoutes = require('./routes/dashboardSummary.routes');
 
 const app = express();
 app.use(express.json());
@@ -20,26 +21,8 @@ app.get('/', (req, res) => {
 // Use route modules
 app.use('/agents', agentsRoutes);
 app.use('/callGroups', callGroupsRoutes);
-
-//IVR number list
-app.use('/ivrNumbersList', (req, res) => {
-    const response = axios.post(`${process.env.CALLERDESK_BASE_URL}/getdeskphone_v2`,
-        { authcode: req.body.authcode },
-        {
-            headers: {
-                'Authorization': `${process.env.CALLERDESK_API_KEY}`,
-                'Content-Type': 'application/x-www-form-urlencoded'
-            }
-        }
-    ).then((apiResponse) => {
-        res.json(apiResponse.data);
-    }).catch((error) => {
-        res.status(error.response?.status || 500).json({
-            error: 'Failed to fetch IVR number list',
-            details: error.message
-        });
-    });
-});
+app.use('/calls', callsRoutes);
+app.use('/dashboard', dashRoutes)
 
 // Error handling middleware
 app.use((err, req, res, next) => {
