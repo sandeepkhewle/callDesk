@@ -1,0 +1,153 @@
+<mxfile host="app.diagrams.net" agent="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/143.0.0.0 Safari/537.36" version="28.1.2">
+  <diagram name="CallerDesk API Flow" id="0">
+    <mxGraphModel dx="985" dy="468" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="850" pageHeight="1100" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="client" value="Backend" style="rounded=1;whiteSpace=wrap;html=1;" parent="1" vertex="1">
+          <mxGeometry x="400" y="20" width="260" height="50" as="geometry" />
+        </mxCell>
+        <mxCell id="auth" value="Store API Key ( Authcode )" style="rounded=1;whiteSpace=wrap;html=1;" parent="1" vertex="1">
+          <mxGeometry x="400" y="100" width="260" height="50" as="geometry" />
+        </mxCell>
+        <mxCell id="JxmooTJos4wFp7JYVt2u-16" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" edge="1" parent="1" source="agent" target="JxmooTJos4wFp7JYVt2u-11">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="agent" value="Agent (Member) Management (CRUD)" style="rounded=1;whiteSpace=wrap;html=1;" parent="1" vertex="1">
+          <mxGeometry x="350" y="190" width="360" height="150" as="geometry" />
+        </mxCell>
+        <mxCell id="JxmooTJos4wFp7JYVt2u-34" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" edge="1" parent="1" source="group" target="JxmooTJos4wFp7JYVt2u-33">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="group" value="Call Group Management (CRUD) (OPTIONAL)" style="rounded=1;whiteSpace=wrap;html=1;" parent="1" vertex="1">
+          <mxGeometry x="350" y="460" width="360" height="150" as="geometry" />
+        </mxCell>
+        <mxCell id="JxmooTJos4wFp7JYVt2u-28" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" edge="1" parent="1" source="call" target="JxmooTJos4wFp7JYVt2u-22">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="call" value="Call Operations&lt;br&gt;(Click to Call)" style="rounded=1;whiteSpace=wrap;html=1;" parent="1" vertex="1">
+          <mxGeometry x="350" y="650" width="360" height="120" as="geometry" />
+        </mxCell>
+        <mxCell id="JxmooTJos4wFp7JYVt2u-1" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" edge="1" parent="1" source="reports" target="webhook">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="JxmooTJos4wFp7JYVt2u-27" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" edge="1" parent="1" source="reports" target="JxmooTJos4wFp7JYVt2u-26">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="reports" value="Call Reports" style="rounded=1;whiteSpace=wrap;html=1;" parent="1" vertex="1">
+          <mxGeometry x="350" y="817" width="360" height="90" as="geometry" />
+        </mxCell>
+        <mxCell id="webhook" value="Webhook Events" style="rounded=1;whiteSpace=wrap;html=1;" parent="1" vertex="1">
+          <mxGeometry x="350" y="937" width="360" height="140" as="geometry" />
+        </mxCell>
+        <mxCell id="e1" parent="1" source="client" target="auth" edge="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e2" parent="1" source="auth" target="agent" edge="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e3" parent="1" source="agent" target="group" edge="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e4" parent="1" source="group" target="call" edge="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e5" style="exitX=0.5;exitY=1;exitDx=0;exitDy=0;" parent="1" source="call" target="reports" edge="1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="530" y="787" as="sourcePoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="e6" style="entryX=0.5;entryY=0;entryDx=0;entryDy=0;" parent="1" target="webhook" edge="1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="530" y="907" as="sourcePoint" />
+            <mxPoint x="530" y="817" as="targetPoint" />
+            <Array as="points">
+              <mxPoint x="530" y="907" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="JxmooTJos4wFp7JYVt2u-20" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" edge="1" parent="1" source="JxmooTJos4wFp7JYVt2u-2" target="JxmooTJos4wFp7JYVt2u-18">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="JxmooTJos4wFp7JYVt2u-2" value="Create IVR number ?" style="rounded=1;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="440" y="370" width="200" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="JxmooTJos4wFp7JYVt2u-4" value="Authcode" style="swimlane;whiteSpace=wrap;html=1;" vertex="1" collapsed="1" parent="1">
+          <mxGeometry x="100" y="150" width="140" height="30" as="geometry">
+            <mxRectangle x="100" y="150" width="200" height="200" as="alternateBounds" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="JxmooTJos4wFp7JYVt2u-7" value="&lt;b&gt;Required in All APIs&lt;/b&gt;" style="text;html=1;align=center;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;" vertex="1" parent="JxmooTJos4wFp7JYVt2u-4">
+          <mxGeometry x="30" y="50" width="140" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="JxmooTJos4wFp7JYVt2u-8" value="Will get from CallerDesk panel" style="text;html=1;align=center;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;" vertex="1" parent="JxmooTJos4wFp7JYVt2u-4">
+          <mxGeometry x="10" y="90" width="180" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="JxmooTJos4wFp7JYVt2u-5" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0.555;entryY=0.003;entryDx=0;entryDy=0;entryPerimeter=0;" edge="1" parent="1" source="auth" target="JxmooTJos4wFp7JYVt2u-4">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="JxmooTJos4wFp7JYVt2u-11" value="Agent" style="swimlane;whiteSpace=wrap;html=1;startSize=30;" vertex="1" collapsed="1" parent="1">
+          <mxGeometry x="800" y="290" width="70" height="30" as="geometry">
+            <mxRectangle x="800" y="290" width="210" height="200" as="alternateBounds" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="JxmooTJos4wFp7JYVt2u-13" value="Name &amp;amp; Phone are mandatory" style="text;html=1;align=center;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;" vertex="1" parent="JxmooTJos4wFp7JYVt2u-11">
+          <mxGeometry x="10" y="50" width="190" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="JxmooTJos4wFp7JYVt2u-15" value="Phone number is the same number&amp;nbsp;&lt;div&gt;where we will receive calls.&lt;/div&gt;" style="text;html=1;align=center;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;" vertex="1" parent="JxmooTJos4wFp7JYVt2u-11">
+          <mxGeometry y="90" width="210" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="JxmooTJos4wFp7JYVt2u-43" value="Agents are required for&amp;nbsp;&lt;div&gt;Click to call API&lt;/div&gt;" style="text;html=1;align=center;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;" vertex="1" parent="JxmooTJos4wFp7JYVt2u-11">
+          <mxGeometry x="30" y="140" width="150" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="JxmooTJos4wFp7JYVt2u-18" value="IVR number" style="swimlane;whiteSpace=wrap;html=1;startSize=30;" vertex="1" parent="1">
+          <mxGeometry x="40" y="460" width="210" height="200" as="geometry">
+            <mxRectangle x="40" y="460" width="100" height="30" as="alternateBounds" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="JxmooTJos4wFp7JYVt2u-19" value="Will get you from CallerDesk Panel" style="text;html=1;align=center;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;" vertex="1" parent="JxmooTJos4wFp7JYVt2u-18">
+          <mxGeometry y="48" width="210" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="JxmooTJos4wFp7JYVt2u-31" value="Or from the IVR list API" style="text;html=1;align=center;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;" vertex="1" parent="JxmooTJos4wFp7JYVt2u-18">
+          <mxGeometry x="25" y="110" width="150" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="JxmooTJos4wFp7JYVt2u-21" value="&lt;span style=&quot;color: rgba(0, 0, 0, 0); font-family: monospace; font-size: 0px; text-align: start;&quot;&gt;%3CmxGraphModel%3E%3Croot%3E%3CmxCell%20id%3D%220%22%2F%3E%3CmxCell%20id%3D%221%22%20parent%3D%220%22%2F%3E%3CmxCell%20id%3D%222%22%20value%3D%22IVR%20number%22%20style%3D%22swimlane%3BwhiteSpace%3Dwrap%3Bhtml%3D1%3BstartSize%3D30%3B%22%20vertex%3D%221%22%20parent%3D%221%22%3E%3CmxGeometry%20x%3D%2290%22%20y%3D%22600%22%20width%3D%22210%22%20height%3D%22200%22%20as%3D%22geometry%22%2F%3E%3C%2FmxCell%3E%3CmxCell%20id%3D%223%22%20value%3D%22Will%20get%20you%20from%20CallerDesk%20Panel%22%20style%3D%22text%3Bhtml%3D1%3Balign%3Dcenter%3BverticalAlign%3Dmiddle%3Bresizable%3D0%3Bpoints%3D%5B%5D%3Bautosize%3D1%3BstrokeColor%3Dnone%3BfillColor%3Dnone%3B%22%20vertex%3D%221%22%20parent%3D%222%22%3E%3CmxGeometry%20y%3D%2248%22%20width%3D%22210%22%20height%3D%2230%22%20as%3D%22geometry%22%2F%3E%3C%2FmxCell%3E%3C%2Froot%3E%3C%2FmxGraphModel%3E&lt;/span&gt;" style="text;html=1;align=center;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;" vertex="1" parent="1">
+          <mxGeometry x="920" y="738" width="20" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="JxmooTJos4wFp7JYVt2u-22" value="Click To Call" style="swimlane;whiteSpace=wrap;html=1;startSize=30;" vertex="1" parent="1">
+          <mxGeometry x="830" y="738" width="260" height="210" as="geometry">
+            <mxRectangle x="830" y="738" width="110" height="30" as="alternateBounds" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="JxmooTJos4wFp7JYVt2u-24" value="You will require:- &lt;br&gt;desk number, Agent number and&lt;div&gt;receiver&#39;s number&amp;nbsp;&lt;/div&gt;" style="text;html=1;align=center;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;" vertex="1" parent="JxmooTJos4wFp7JYVt2u-22">
+          <mxGeometry x="30" y="32" width="200" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="JxmooTJos4wFp7JYVt2u-30" value="Call will be intitated once you&amp;nbsp;&lt;div&gt;provide all these details&lt;/div&gt;" style="text;html=1;align=center;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;" vertex="1" parent="JxmooTJos4wFp7JYVt2u-22">
+          <mxGeometry x="40" y="102" width="180" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="JxmooTJos4wFp7JYVt2u-44" value="Call -&amp;gt; Agent&#39;s number -&amp;gt; Receiver&#39;s number" style="text;html=1;align=center;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;" vertex="1" parent="JxmooTJos4wFp7JYVt2u-22">
+          <mxGeometry y="150" width="260" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="JxmooTJos4wFp7JYVt2u-26" value="Reports" style="swimlane;whiteSpace=wrap;html=1;startSize=30;" vertex="1" parent="1">
+          <mxGeometry x="50" y="890" width="205" height="200" as="geometry">
+            <mxRectangle x="50" y="890" width="80" height="30" as="alternateBounds" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="JxmooTJos4wFp7JYVt2u-29" value="Reports includes details of the&amp;nbsp;&lt;div&gt;calls&amp;nbsp;&lt;span style=&quot;background-color: transparent; color: light-dark(rgb(0, 0, 0), rgb(255, 255, 255));&quot;&gt;with the call recording&lt;/span&gt;&lt;/div&gt;" style="text;html=1;align=center;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;" vertex="1" parent="JxmooTJos4wFp7JYVt2u-26">
+          <mxGeometry y="70" width="190" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="JxmooTJos4wFp7JYVt2u-33" value="Call group" style="swimlane;whiteSpace=wrap;html=1;startSize=30;" vertex="1" parent="1">
+          <mxGeometry x="940" y="500" width="240" height="200" as="geometry">
+            <mxRectangle x="940" y="500" width="100" height="30" as="alternateBounds" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="JxmooTJos4wFp7JYVt2u-35" value="Requires Name and deskphone_id" style="text;html=1;align=center;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;" vertex="1" parent="JxmooTJos4wFp7JYVt2u-33">
+          <mxGeometry x="15" y="60" width="210" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="JxmooTJos4wFp7JYVt2u-42" value="You need to hit API named as&amp;nbsp;&lt;div&gt;IVR Number List&amp;nbsp;&lt;/div&gt;&lt;div&gt;(parameter in response = did_id: 418xxx)&lt;/div&gt;" style="text;html=1;align=center;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;" vertex="1" parent="JxmooTJos4wFp7JYVt2u-33">
+          <mxGeometry y="100" width="240" height="60" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>
