@@ -63,6 +63,35 @@ class CallsController {
     }
 
     /**
+     * Initiates a click-to-call.
+     * @param {Object} req.body - Request body
+     * @param {string} req.body.calling_party_a - Phone number of the receiver
+     * @param {string} req.body.calling_party_b - Phone number of the caller (agent)
+     * @param {string} req.body.deskphone - Agent's deskphone number
+     * @param {string} req.body.authcode - Authentication code for API access (API key)
+     */
+    async reserveClickToCall(req, res) {
+        try {
+            console.log("/reserveClickToCall", req.body);
+
+            //calling_party_a is the Receiver's number
+            //calling_party_b is the caller(agent) number
+            //deskphone is the agent deskphone number
+            //authcode is the authentication code
+            const { calling_party_a, calling_party_b, deskphone, authcode } = req.body;
+
+            const data = await callsService.reserveClickToCall({ calling_party_a, calling_party_b, deskphone, authcode });
+            res.json(data);
+        } catch (error) {
+            let statusCode = 500;
+            res.status(statusCode).json({
+                error: 'Failed to reserve click to call',
+                details: error.message
+            });
+        }
+    }
+
+    /**
      * Retrieves call reports.
      * @param {Object} req.body - Request body
      * @param {string} req.body.authcode - Authentication code for API access (API key)
