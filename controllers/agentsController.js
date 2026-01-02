@@ -11,9 +11,9 @@ class AgentsController {
     async createAgent(req, res) {
         try {
             console.log("Creating new member", req.body);
-            const { authcode, name, phone } = req.body;
+            const { authcode, name, phone, entity_id, user_id } = req.body;
 
-            const data = await agentsService.createAgent({ authcode, name, phone });
+            const data = await agentsService.createAgent({ authcode, name, phone, entity_id, user_id });
 
             res.status(201).json(data);
         } catch (error) {

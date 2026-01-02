@@ -1,11 +1,28 @@
 const axios = require('axios');
+const Agent = require('../models/agent.model');
+const mongoose = require('mongoose');
 
 const BASE_URL = process.env.CALLERDESK_BASE_URL;
 const API_KEY = process.env.CALLERDESK_API_KEY;
 
 class AgentsService {
     async createAgent(agentData) {
-        const { authcode, name, phone } = agentData;
+        const { authcode, name, phone, entity_id, user_id } = agentData;
+        const agent_id = Math.floor(1000000 + Math.random() * 9000000).toString();
+
+        // Save to local database
+        const agent = new Agent({
+            authcode,
+            agent_id,
+            entity_id,
+            user_id,
+            name,
+            phone,
+            access: 2,
+            active: 1
+        });
+
+        await agent.save();
 
         const response = await axios.post(`${BASE_URL}/addmember_v2`, {
             authcode,
