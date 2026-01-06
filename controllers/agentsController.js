@@ -1,4 +1,5 @@
 const agentsService = require('../services/agentsService');
+const { successResponse, errorResponse } = require('../helpers/responseHelper');
 
 class AgentsController {
     /**
@@ -15,14 +16,10 @@ class AgentsController {
 
             const data = await agentsService.createAgent({ authcode, name, phone, entity_id, user_id });
 
-            res.status(201).json(data);
+            successResponse(res, data, 201);
         } catch (error) {
             console.log(error);
-
-            res.status(error.response?.status || 500).json({
-                error: 'Failed to create agent',
-                details: error.message
-            });
+            errorResponse(res, error, error.response?.status || 500, 'Failed to create agent');
         }
     }
 
@@ -36,12 +33,9 @@ class AgentsController {
 
             const data = await agentsService.updateAgent(req.body);
 
-            res.json(data);
+            successResponse(res, data);
         } catch (error) {
-            res.status(error.response?.status || 500).json({
-                error: 'Failed to update agent',
-                details: error.message
-            });
+            errorResponse(res, error, error.response?.status || 500, 'Failed to update agent');
         }
     }
 
@@ -58,12 +52,9 @@ class AgentsController {
 
             const data = await agentsService.getAgents({ authcode, page, limit });
 
-            res.json(data);
+            successResponse(res, data);
         } catch (error) {
-            res.status(error.response?.status || 500).json({
-                error: 'Failed to fetch agents',
-                details: error.message
-            });
+            errorResponse(res, error, error.response?.status || 500, 'Failed to fetch agents');
         }
     }
 
@@ -80,10 +71,7 @@ class AgentsController {
 
             res.status(204).send();
         } catch (error) {
-            res.status(error.response?.status || 500).json({
-                error: 'Failed to delete agent',
-                details: error.message
-            });
+            errorResponse(res, error, error.response?.status || 500, 'Failed to delete agent');
         }
     }
 }

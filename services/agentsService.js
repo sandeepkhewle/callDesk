@@ -7,22 +7,8 @@ const API_KEY = process.env.CALLERDESK_API_KEY;
 
 class AgentsService {
     async createAgent(agentData) {
-        const { authcode, name, phone, entity_id, user_id } = agentData;
+        const { authcode, name, phone, entity_id } = agentData;
         const agent_id = Math.floor(1000000 + Math.random() * 9000000).toString();
-
-        // Save to local database
-        const agent = new Agent({
-            authcode,
-            agent_id,
-            entity_id,
-            user_id,
-            name,
-            phone,
-            access: 2,
-            active: 1
-        });
-
-        await agent.save();
 
         const response = await axios.post(`${BASE_URL}/addmember_v2`, {
             authcode,
@@ -36,6 +22,20 @@ class AgentsService {
                 'Content-Type': 'application/x-www-form-urlencoded'
             }
         });
+
+        // Save to local database only after successful API call and getting member_id
+        const agent = new Agent({
+            authcode,
+            agent_id,
+            entity_id,
+            user_id: response.data?.getmember[0]?.member_id,
+            name,
+            phone,
+            access: 2,
+            active: 1
+        });
+
+        await agent.save();
 
         return response.data;
     }
@@ -74,6 +74,9 @@ class AgentsService {
                 }
             }
         );
+
+        //delete agent from local database
+        await Agent.deleteOne({ authcode, user_id: member_id });
 
         return response.data;
     }

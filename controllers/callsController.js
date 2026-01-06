@@ -1,4 +1,5 @@
 const callsService = require('../services/callsService');
+const { successResponse, errorResponse } = require('../helpers/responseHelper');
 
 class CallsController {
     /**
@@ -20,13 +21,9 @@ class CallsController {
 
             const data = await callsService.clickToCall({ calling_party_a, calling_party_b, deskphone, authcode });
 
-            res.json(data);
+            successResponse(res, data);
         } catch (error) {
-            let statusCode = 500;
-            res.status(statusCode).json({
-                error: 'Failed to initiate click to call',
-                details: error.message
-            });
+            errorResponse(res, error, 500, 'Failed to initiate click to call');
         }
     }
 
@@ -52,13 +49,9 @@ class CallsController {
 
             const data = await callsService.clickToCallViaCallGroup({ calling_party_a, calling_party_b, deskphone, authcode, group_name });
 
-            res.json(data);
+            successResponse(res, data);
         } catch (error) {
-            let statusCode = 500;
-            res.status(statusCode).json({
-                error: 'Failed to initiate click to call via call group',
-                details: error.message
-            });
+            errorResponse(res, error, 500, 'Failed to initiate click to call via call group');
         }
     }
 
@@ -81,13 +74,9 @@ class CallsController {
             const { calling_party_a, calling_party_b, deskphone, authcode } = req.body;
 
             const data = await callsService.reserveClickToCall({ calling_party_a, calling_party_b, deskphone, authcode });
-            res.json(data);
+            successResponse(res, data);
         } catch (error) {
-            let statusCode = 500;
-            res.status(statusCode).json({
-                error: 'Failed to reserve click to call',
-                details: error.message
-            });
+            errorResponse(res, error, 500, 'Failed to reserve click to call');
         }
     }
 
@@ -104,12 +93,9 @@ class CallsController {
 
             const data = await callsService.callReport(authcode);
 
-            res.json(data);
+            successResponse(res, data);
         } catch (error) {
-            res.status(error.response?.status || 500).json({
-                error: 'Failed to fetch call reports',
-                details: error.message
-            });
+            errorResponse(res, error, error.response?.status || 500, 'Failed to fetch call reports');
         }
     }
 
@@ -124,12 +110,9 @@ class CallsController {
 
             const data = await callsService.getIvrNumbersList(authcode);
 
-            res.json(data);
+            successResponse(res, data);
         } catch (error) {
-            res.status(error.response?.status || 500).json({
-                error: 'Failed to fetch IVR number list',
-                details: error.message
-            });
+            errorResponse(res, error, error.response?.status || 500, 'Failed to fetch IVR number list');
         }
     }
 }
