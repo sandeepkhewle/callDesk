@@ -5,16 +5,16 @@ class AgentsController {
     /**
      * Creates a new agent.
      * @param {Object} req.body - Request body
-     * @param {string} req.body.authcode - Authentication code for API access (API key)
      * @param {string} req.body.name - Name of the agent
      * @param {string} req.body.phone - Phone number of the agent
+     * @param {string} req.body.entity_id - Entity ID
      */
     async createAgent(req, res) {
         try {
             console.log("Creating new member", req.body);
-            const { authcode, name, phone, entity_id, user_id } = req.body;
+            const { name, phone, entity_id } = req.body;
 
-            const data = await agentsService.createAgent({ authcode, name, phone, entity_id, user_id });
+            const data = await agentsService.createAgent({ name, phone, entity_id });
 
             successResponse(res, data, 201);
         } catch (error) {
@@ -42,15 +42,14 @@ class AgentsController {
     /**
      * Retrieves a list of agents.
      * @param {Object} req.body - Request body
-     * @param {string} req.body.authcode - Authentication code for API access (API key)
      * @param {number} [req.body.page=1] - Page number for pagination
      * @param {number} [req.body.limit=50] - Number of agents per page
      */
     async getAgents(req, res) {
         try {
-            const { authcode, page = 1, limit = 50 } = req.body;
+            const { page = 1, limit = 50 } = req.body;
 
-            const data = await agentsService.getAgents({ authcode, page, limit });
+            const data = await agentsService.getAgents({ page, limit });
 
             successResponse(res, data);
         } catch (error) {
@@ -61,13 +60,12 @@ class AgentsController {
     /**
      * Deletes an agent.
      * @param {Object} req.body - Request body
-     * @param {string} req.body.authcode - Authentication code for API access (API key)
      * @param {string} req.body.member_id - ID of the agent to delete
      */
     async deleteAgent(req, res) {
         try {
-            const { authcode, member_id } = req.body;
-            await agentsService.deleteAgent({ authcode, member_id });
+            const { member_id } = req.body;
+            await agentsService.deleteAgent({ member_id });
 
             res.status(204).send();
         } catch (error) {
@@ -78,16 +76,15 @@ class AgentsController {
     /**
      * Links a DID number to an agent.
      * @param {Object} req.body - Request body
-     * @param {string} req.body.authcode - Authentication code for API access (API key)
-     * @param {string} req.body.name - Name of the agent
      * @param {string} req.body.deskphone - Deskphone to link
+     * @param {string} req.body.member_id - Member ID
      */
     async linkDID(req, res) {
         try {
             console.log("Linking deskphone to agent", req.body);
-            const { authcode, deskphone, member_id } = req.body;
+            const { deskphone, member_id } = req.body;
 
-            const data = await agentsService.linkDID({ authcode, deskphone, member_id });
+            const data = await agentsService.linkDID({ deskphone, member_id });
 
             successResponse(res, data);
         } catch (error) {
