@@ -1,4 +1,5 @@
 const dashboardSummaryService = require('../services/dashboardSummaryService.js');
+const { successResponse, errorResponse } = require('../helpers/responseHelper');
 
 class dashboardSummaryController {
     /**
@@ -11,19 +12,11 @@ class dashboardSummaryController {
             console.log("dashboardSummary", req.body);
             const { authcode } = req.body;
             const data = await dashboardSummaryService.getDashboardSummary(authcode);
-            res.json(data);
+            successResponse(res, data);
         } catch (error) {
-            if (error.message === 'Authcode is required') {
-                res.status(400).json({
-                    error: 'Bad Request',
-                    details: error.message
-                });
-            } else {
-                res.status(error.response?.status || 500).json({
-                    error: 'Failed to fetch dashboard summary',
-                    details: error.message
-                });
-            }
+            const status = error.message === 'Authcode is required' ? 400 : error.response?.status || 500;
+            const message = error.message === 'Authcode is required' ? 'Bad Request' : 'Failed to fetch dashboard summary';
+            errorResponse(res, error, status, message);
         }
     }
 }

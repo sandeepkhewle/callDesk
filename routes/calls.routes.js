@@ -12,6 +12,9 @@ router.get('/clickToCall', upload.none(), callsController.clickToCall);
 // Click to Call via Call Group
 router.get('/clickToCallViaCallGroup', upload.none(), callsController.clickToCallViaCallGroup);
 
+// Reserve Click to call
+router.get('/reserveClickToCall', upload.none(), callsController.reserveClickToCall);
+
 // Call Report
 router.post('/callReport', upload.none(), callsController.callReports);
 

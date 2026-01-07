@@ -1,4 +1,5 @@
 const agentsService = require('../services/agentsService');
+const { successResponse, errorResponse } = require('../helpers/responseHelper');
 
 class AgentsController {
     /**
@@ -11,18 +12,14 @@ class AgentsController {
     async createAgent(req, res) {
         try {
             console.log("Creating new member", req.body);
-            const { authcode, name, phone } = req.body;
+            const { authcode, name, phone, entity_id, user_id } = req.body;
 
-            const data = await agentsService.createAgent({ authcode, name, phone });
+            const data = await agentsService.createAgent({ authcode, name, phone, entity_id, user_id });
 
-            res.status(201).json(data);
+            successResponse(res, data, 201);
         } catch (error) {
             console.log(error);
-
-            res.status(error.response?.status || 500).json({
-                error: 'Failed to create agent',
-                details: error.message
-            });
+            errorResponse(res, error, error.response?.status || 500, 'Failed to create agent');
         }
     }
 
@@ -36,12 +33,9 @@ class AgentsController {
 
             const data = await agentsService.updateAgent(req.body);
 
-            res.json(data);
+            successResponse(res, data);
         } catch (error) {
-            res.status(error.response?.status || 500).json({
-                error: 'Failed to update agent',
-                details: error.message
-            });
+            errorResponse(res, error, error.response?.status || 500, 'Failed to update agent');
         }
     }
 
@@ -58,12 +52,9 @@ class AgentsController {
 
             const data = await agentsService.getAgents({ authcode, page, limit });
 
-            res.json(data);
+            successResponse(res, data);
         } catch (error) {
-            res.status(error.response?.status || 500).json({
-                error: 'Failed to fetch agents',
-                details: error.message
-            });
+            errorResponse(res, error, error.response?.status || 500, 'Failed to fetch agents');
         }
     }
 
@@ -80,10 +71,28 @@ class AgentsController {
 
             res.status(204).send();
         } catch (error) {
-            res.status(error.response?.status || 500).json({
-                error: 'Failed to delete agent',
-                details: error.message
-            });
+            errorResponse(res, error, error.response?.status || 500, 'Failed to delete agent');
+        }
+    }
+
+    /**
+     * Links a DID number to an agent.
+     * @param {Object} req.body - Request body
+     * @param {string} req.body.authcode - Authentication code for API access (API key)
+     * @param {string} req.body.name - Name of the agent
+     * @param {string} req.body.deskphone - Deskphone to link
+     */
+    async linkDID(req, res) {
+        try {
+            console.log("Linking deskphone to agent", req.body);
+            const { authcode, deskphone, member_id } = req.body;
+
+            const data = await agentsService.linkDID({ authcode, deskphone, member_id });
+
+            successResponse(res, data);
+        } catch (error) {
+            console.log(error);
+            errorResponse(res, error, error.response?.status || 500, 'Failed to link DID to agent');
         }
     }
 }

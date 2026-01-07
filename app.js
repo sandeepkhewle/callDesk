@@ -1,5 +1,6 @@
 require('dotenv').config();
 const express = require('express');
+const mongoose = require('mongoose');
 
 // Import route modules
 const agentsRoutes = require('./routes/agents.routes');
@@ -40,7 +41,12 @@ app.use((req, res) => {
     });
 });
 
-const PORT = process.env.PORT || 3000;
+// Connect to MongoDB
+mongoose.connect(process.env.MONGODB_URI || 'mongodb://localhost:27017/calldesk')
+    .then(() => console.log('Connected to MongoDB'))
+    .catch(err => console.error('MongoDB connection error:', err));
+
+const PORT = process.env.PORT || 3001;
 app.listen(PORT, () => {
     console.log(`CallerDesk REST API Server listening on port ${PORT}`);
 });

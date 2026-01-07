@@ -1,4 +1,5 @@
 const callGroupsService = require('../services/callGroupsService');
+const { successResponse, errorResponse } = require('../helpers/responseHelper');
 
 class CallGroupsController {
     /**
@@ -15,14 +16,10 @@ class CallGroupsController {
 
             const data = await callGroupsService.createCallGroup({ authcode, name, deskphone_id });
 
-            res.status(201).json(data);
+            successResponse(res, data, 201);
         } catch (error) {
             console.log(error);
-
-            res.status(error.response?.status || 500).json({
-                error: 'Failed to create call group',
-                details: error.message
-            });
+            errorResponse(res, error, error.response?.status || 500, 'Failed to create call group');
         }
     }
 
@@ -35,12 +32,9 @@ class CallGroupsController {
             console.log("Updating call group", req.body);
 
             const data = await callGroupsService.updateCallGroup(req.body);
-            res.json(data);
+            successResponse(res, data);
         } catch (error) {
-            res.status(error.response?.status || 500).json({
-                error: 'Failed to update call group',
-                details: error.message
-            });
+            errorResponse(res, error, error.response?.status || 500, 'Failed to update call group');
         }
     }
 
@@ -56,12 +50,9 @@ class CallGroupsController {
             const { authcode, page = 1, limit = 50 } = req.body;
 
             const data = await callGroupsService.getCallGroups({ authcode, page, limit });
-            res.json(data);
+            successResponse(res, data);
         } catch (error) {
-            res.status(error.response?.status || 500).json({
-                error: 'Failed to fetch call groups',
-                details: error.message
-            });
+            errorResponse(res, error, error.response?.status || 500, 'Failed to fetch call groups');
         }
     }
 
@@ -78,10 +69,7 @@ class CallGroupsController {
 
             res.status(204).send();
         } catch (error) {
-            res.status(error.response?.status || 500).json({
-                error: 'Failed to delete call group',
-                details: error.message
-            });
+            errorResponse(res, error, error.response?.status || 500, 'Failed to delete call group');
         }
     }
 }

@@ -1,4 +1,5 @@
 const webhooksService = require('../services/webhooksService');
+const { successResponse, errorResponse } = require('../helpers/responseHelper');
 
 class WebhooksController {
     /**
@@ -15,12 +16,9 @@ class WebhooksController {
 
             const result = await webhooksService.processCallWebhook({ call_id, status, duration, agent_id });
 
-            res.status(200).json({ received: true });
+            successResponse(res, { received: true });
         } catch (error) {
-            res.status(500).json({
-                error: 'Failed to process call webhook',
-                details: error.message
-            });
+            errorResponse(res, error, 500, 'Failed to process call webhook');
         }
     }
 
@@ -38,12 +36,9 @@ class WebhooksController {
 
             const result = await webhooksService.processSmsWebhook({ message_id, status, to_number, from_number });
 
-            res.status(200).json({ received: true });
+            successResponse(res, { received: true });
         } catch (error) {
-            res.status(500).json({
-                error: 'Failed to process SMS webhook',
-                details: error.message
-            });
+            errorResponse(res, error, 500, 'Failed to process SMS webhook');
         }
     }
 }

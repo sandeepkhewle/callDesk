@@ -1,11 +1,14 @@
 const axios = require('axios');
+const Agent = require('../models/agent.model');
+const mongoose = require('mongoose');
 
 const BASE_URL = process.env.CALLERDESK_BASE_URL;
 const API_KEY = process.env.CALLERDESK_API_KEY;
 
 class AgentsService {
     async createAgent(agentData) {
-        const { authcode, name, phone } = agentData;
+        const { authcode, name, phone, entity_id } = agentData;
+        const agent_id = Math.floor(1000000 + Math.random() * 9000000).toString();
 
         const response = await axios.post(`${BASE_URL}/addmember_v2`, {
             authcode,
@@ -20,6 +23,20 @@ class AgentsService {
             }
         });
 
+        // Save to local database only after successful API call and getting member_id
+        const agent = new Agent({
+            authcode,
+            agent_id,
+            entity_id,
+            user_id: response.data?.getmember[0]?.member_id,
+            name,
+            phone,
+            access: 2,
+            active: 1
+        });
+
+        await agent.save();
+
         return response.data;
     }
 
@@ -30,6 +47,13 @@ class AgentsService {
                 'Content-Type': 'application/x-www-form-urlencoded'
             }
         });
+
+        // Update local database
+        const { authcode, member_id, member_name, member_num, } = agentData;
+        await Agent.findOneAndUpdate(
+            { authcode, user_id: member_id },
+            { name: member_name, phone: member_num, }
+        );
 
         return response.data;
     }
@@ -58,7 +82,27 @@ class AgentsService {
             }
         );
 
+        //delete agent from local database
+        await Agent.deleteOne({ authcode, user_id: member_id });
+
         return response.data;
+    }
+
+    async linkDID(agentData) {
+        const { authcode, deskphone, member_id } = agentData;
+
+        // Find agent by authcode and member_id, then update deskphone
+        const updatedAgent = await Agent.findOneAndUpdate(
+            { authcode, user_id: member_id },
+            { deskphone, updatedAt: new Date() },
+            { new: true }
+        );
+
+        if (!updatedAgent) {
+            throw new Error('Agent not found');
+        }
+
+        return updatedAgent;
     }
 }
 
