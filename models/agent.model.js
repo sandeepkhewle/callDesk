@@ -1,13 +1,9 @@
 const mongoose = require('mongoose');
 
 const agentSchema = new mongoose.Schema({
-    authcode: {
-        type: String,
-        required: true,
-        index: true
-    },
-    entity_id: {
-        type: String,
+    entity: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Entity',
         required: true
     },
     agent_id: {
@@ -41,16 +37,8 @@ const agentSchema = new mongoose.Schema({
     active: {
         type: Number,
         default: 1
-    },
-    createdAt: {
-        type: Date,
-        default: Date.now
-    },
-    updatedAt: {
-        type: Date,
-        default: Date.now
     }
-});
+}, { timestamps: true });
 
 
 module.exports = mongoose.model('Agent', agentSchema);

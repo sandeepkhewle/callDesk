@@ -7,6 +7,7 @@ const agentsRoutes = require('./routes/agents.routes');
 const callGroupsRoutes = require('./routes/callGroups.routes');
 const callsRoutes = require('./routes/calls.routes');
 const dashRoutes = require('./routes/dashboardSummary.routes');
+const entityRoutes = require('./routes/entity.routes');
 
 const app = express();
 app.use(express.json());
@@ -23,7 +24,8 @@ app.get('/', (req, res) => {
 app.use('/agents', agentsRoutes);
 app.use('/callGroups', callGroupsRoutes);
 app.use('/calls', callsRoutes);
-app.use('/dashboard', dashRoutes)
+app.use('/dashboard', dashRoutes);
+app.use('/entities', entityRoutes);
 
 // Error handling middleware
 app.use((err, req, res, next) => {
