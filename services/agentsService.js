@@ -41,6 +41,50 @@ class AgentsService {
         return response.data;
     }
 
+    /**
+     * Validates agent creation data before creating the agent
+     * - Checks if deskphone is already linked to another agent in the same entity
+     * - Validates entity existence
+     * @param {Object} agentData - Agent data to validate
+     * @param {string} agentData.entity_id - Entity ID
+     * @param {string} [agentData.deskphone] - Deskphone number (optional)
+     * @returns {Object} Validation result with success status and message
+     */
+    async validateAgentCreation(agentData) {
+        const { entity_id, deskphone } = agentData;
+
+        // Check if entity exists
+        const Entity = require('../models/entity.model');
+        const entity = await Entity.findById(entity_id);
+        if (!entity) {
+            return {
+                success: false,
+                message: 'Entity not found'
+            };
+        }
+
+        // Check if deskphone is already linked to another agent in the same entity
+        if (deskphone) {
+            const existingAgent = await Agent.findOne({
+                entity: entity_id,
+                deskphone: deskphone
+            });
+
+            if (existingAgent) {
+                return {
+                    success: false,
+                    message: `Deskphone number ${deskphone} is already linked to another agent`,
+                    linkedAgent: existingAgent
+                };
+            }
+        }
+
+        return {
+            success: true,
+            message: 'Validation passed'
+        };
+    }
+
     async updateAgent(agentData) {
         const response = await axios.post(`${this.BASE_URL}/updatemember_v2`, agentData, {
             headers: {

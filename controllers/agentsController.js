@@ -24,6 +24,30 @@ class AgentsController {
     }
 
     /**
+     * Validates agent creation data before creating the agent
+     * @param {Object} req.body - Request body
+     * @param {string} req.body.entity_id - Entity ID to validate
+     * @param {string} [req.body.deskphone] - Deskphone number to check (optional)
+     */
+    async validateAgentCreation(req, res) {
+        try {
+            console.log("Validating agent creation", req.body);
+            const { entity_id, deskphone } = req.body;
+
+            const data = await agentsService.validateAgentCreation({ entity_id, deskphone });
+
+            if (data.success) {
+                successResponse(res, data);
+            } else {
+                errorResponse(res, data.message, 409, 'Validation failed');
+            }
+        } catch (error) {
+            console.log(error);
+            errorResponse(res, error, error.response?.status || 500, 'Failed to validate agent creation');
+        }
+    }
+
+    /**
      * Updates an existing agent.
      * @param {Object} req.body - Request body (full body passed to service)
      */

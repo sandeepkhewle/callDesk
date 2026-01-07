@@ -6,6 +6,9 @@ const router = express.Router();
 
 const upload = multer();
 
+// Validate agent creation data
+router.post('/validate-creation', upload.none(), agentsController.validateAgentCreation);
+
 // Create agent
 router.post('/create', upload.none(), agentsController.createAgent);
 
