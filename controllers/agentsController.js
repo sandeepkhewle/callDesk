@@ -80,14 +80,14 @@ class AgentsController {
      * @param {Object} req.body - Request body
      * @param {string} req.body.authcode - Authentication code for API access (API key)
      * @param {string} req.body.name - Name of the agent
-     * @param {string} req.body.did_no - DID number to link
+     * @param {string} req.body.deskphone - Deskphone to link
      */
     async linkDID(req, res) {
         try {
-            console.log("Linking DID to agent", req.body);
-            const { authcode, did_no, member_id } = req.body;
+            console.log("Linking deskphone to agent", req.body);
+            const { authcode, deskphone, member_id } = req.body;
 
-            const data = await agentsService.linkDID({ authcode, did_no, member_id });
+            const data = await agentsService.linkDID({ authcode, deskphone, member_id });
 
             successResponse(res, data);
         } catch (error) {

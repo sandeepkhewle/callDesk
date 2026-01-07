@@ -30,7 +30,7 @@ const agentSchema = new mongoose.Schema({
         unique: true,
         trim: true
     },
-    did_no: {
+    deskphone: {
         type: String,
         trim: true
     },

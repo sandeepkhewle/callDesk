@@ -89,12 +89,12 @@ class AgentsService {
     }
 
     async linkDID(agentData) {
-        const { authcode, did_no, member_id } = agentData;
+        const { authcode, deskphone, member_id } = agentData;
 
-        // Find agent by authcode and member_id, then update did_no
+        // Find agent by authcode and member_id, then update deskphone
         const updatedAgent = await Agent.findOneAndUpdate(
             { authcode, user_id: member_id },
-            { did_no, updatedAt: new Date() },
+            { deskphone, updatedAt: new Date() },
             { new: true }
         );
 
