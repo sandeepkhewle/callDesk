@@ -40,5 +40,7 @@ const agentSchema = new mongoose.Schema({
     }
 }, { timestamps: true });
 
+// Compound unique index on entity and deskphone
+agentSchema.index({ entity: 1, deskphone: 1 }, { unique: true });
 
 module.exports = mongoose.model('Agent', agentSchema);
