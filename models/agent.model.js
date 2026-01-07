@@ -30,6 +30,10 @@ const agentSchema = new mongoose.Schema({
         unique: true,
         trim: true
     },
+    did_no: {
+        type: String,
+        trim: true
+    },
     access: {
         type: Number,
         default: 2

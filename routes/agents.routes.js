@@ -18,4 +18,7 @@ router.post('/list', upload.none(), agentsController.getAgents);
 // Delete agent
 router.post('/delete', upload.none(), agentsController.deleteAgent);
 
+// Link DID number to agent
+router.post('/link-did', upload.none(), agentsController.linkDID);
+
 module.exports = router;

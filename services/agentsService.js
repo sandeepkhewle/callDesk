@@ -48,6 +48,13 @@ class AgentsService {
             }
         });
 
+        // Update local database
+        const { authcode, member_id, member_name, member_num, } = agentData;
+        await Agent.findOneAndUpdate(
+            { authcode, user_id: member_id },
+            { name: member_name, phone: member_num, }
+        );
+
         return response.data;
     }
 
@@ -79,6 +86,23 @@ class AgentsService {
         await Agent.deleteOne({ authcode, user_id: member_id });
 
         return response.data;
+    }
+
+    async linkDID(agentData) {
+        const { authcode, did_no, member_id } = agentData;
+
+        // Find agent by authcode and member_id, then update did_no
+        const updatedAgent = await Agent.findOneAndUpdate(
+            { authcode, user_id: member_id },
+            { did_no, updatedAt: new Date() },
+            { new: true }
+        );
+
+        if (!updatedAgent) {
+            throw new Error('Agent not found');
+        }
+
+        return updatedAgent;
     }
 }
 
