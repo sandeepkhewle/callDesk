@@ -1,0 +1,38 @@
+*   Trying 127.0.0.1:3001...
+  % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current
+                                 Dload  Upload   Total   Spent    Left  Speed
+  0     0    0     0    0     0      0      0 --:--:-- --:--:-- --:--:--     0* Connected to localhost (127.0.0.1) port 3001 (#0)
+> GET / HTTP/1.1
+> Host: localhost:3001
+> User-Agent: curl/7.84.0
+> Accept: */*
+> 
+* Mark bundle as not supporting multiuse
+< HTTP/1.1 200 OK
+< Content-Security-Policy: default-src 'self';base-uri 'self';font-src 'self' https: data:;form-action 'self';frame-ancestors 'self';img-src 'self' data:;object-src 'none';script-src 'self';script-src-attr 'none';style-src 'self' https: 'unsafe-inline';upgrade-insecure-requests
+< Cross-Origin-Opener-Policy: same-origin
+< Cross-Origin-Resource-Policy: same-origin
+< Origin-Agent-Cluster: ?1
+< Referrer-Policy: no-referrer
+< Strict-Transport-Security: max-age=31536000; includeSubDomains
+< X-Content-Type-Options: nosniff
+< X-DNS-Prefetch-Control: off
+< X-Download-Options: noopen
+< X-Frame-Options: SAMEORIGIN
+< X-Permitted-Cross-Domain-Policies: none
+< X-XSS-Protection: 0
+< Vary: Origin
+< Access-Control-Allow-Credentials: true
+< X-RateLimit-Limit: 100
+< X-RateLimit-Remaining: 99
+< Date: Mon, 19 Jan 2026 17:40:17 GMT
+< X-RateLimit-Reset: 1768845018
+< Content-Type: application/json; charset=utf-8
+< Content-Length: 163
+< ETag: W/"a3-IlbwutfkN3iWZYQHzLH207ekC9U"
+< Connection: keep-alive
+< Keep-Alive: timeout=5
+< 
+{ [163 bytes data]
+100   163  100   163    0     0  10848      0 --:--:-- --:--:-- --:--:-- 11642{"success":true,"message":"Service is healthy","data":{"status":"running","service":"CallerDesk REST API Server","timestamp":"2026-01-19T17:40:17.532Z"},"meta":{}}
+* Connection #0 to host localhost left intact

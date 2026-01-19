@@ -1,119 +1,81 @@
 const agentsService = require('../services/agentsService');
-const { successResponse, errorResponse } = require('../helpers/responseHelper');
 
 class AgentsController {
     /**
      * Creates a new agent.
-     * @param {Object} req.body - Request body
-     * @param {string} req.body.name - Name of the agent
-     * @param {string} req.body.phone - Phone number of the agent
-     * @param {string} req.body.entity_id - Entity ID
      */
-    async createAgent(req, res) {
+    async createAgent(req, res, next) {
         try {
-            console.log("Creating new member", req.body);
-            const { name, phone, entity_id } = req.body;
-
-            const data = await agentsService.createAgent({ name, phone, entity_id });
-
-            successResponse(res, data, 201);
+            const data = await agentsService.createAgent(req.body);
+            res.success(data, 'Agent created successfully', 201);
         } catch (error) {
-            console.log(error);
-            errorResponse(res, error, error.response?.status || 500, 'Failed to create agent');
+            next(error);
         }
     }
 
     /**
-     * Validates agent creation data before creating the agent
-     * @param {Object} req.body - Request body
-     * @param {string} req.body.entity_id - Entity ID to validate
-     * @param {string} [req.body.deskphone] - Deskphone number to check (optional)
+     * Validates agent creation data
      */
-    async validateAgentCreation(req, res) {
+    async validateAgentCreation(req, res, next) {
         try {
-            console.log("Validating agent creation", req.body);
-            const { entity_id, deskphone } = req.body;
-
-            const data = await agentsService.validateAgentCreation({ entity_id, deskphone });
-
+            const data = await agentsService.validateAgentCreation(req.body);
             if (data.success) {
-                successResponse(res, data);
+                res.success(data, 'Validation successful');
             } else {
-                errorResponse(res, data.message, 409, 'Validation failed');
+                // If service returns logical failure, strictly speaking it's a 409 or 400
+                res.error(data.message, 409);
             }
         } catch (error) {
-            console.log(error);
-            errorResponse(res, error, error.response?.status || 500, 'Failed to validate agent creation');
+            next(error);
         }
     }
 
     /**
      * Updates an existing agent.
-     * @param {Object} req.body - Request body (full body passed to service)
      */
-    async updateAgent(req, res) {
+    async updateAgent(req, res, next) {
         try {
-            console.log("Updating member", req.body);
-
             const data = await agentsService.updateAgent(req.body);
-
-            successResponse(res, data);
+            res.success(data, 'Agent updated successfully');
         } catch (error) {
-            errorResponse(res, error, error.response?.status || 500, 'Failed to update agent');
+            next(error);
         }
     }
 
     /**
      * Retrieves a list of agents.
-     * @param {Object} req.body - Request body
-     * @param {number} [req.body.page=1] - Page number for pagination
-     * @param {number} [req.body.limit=50] - Number of agents per page
      */
-    async getAgents(req, res) {
+    async getAgents(req, res, next) {
         try {
-            const { page = 1, limit = 50 } = req.body;
-
+            const { page, limit } = req.body; // Validation middleware handles defaults/types
             const data = await agentsService.getAgents({ page, limit });
-
-            successResponse(res, data);
+            res.success(data, 'Agents fetched successfully');
         } catch (error) {
-            errorResponse(res, error, error.response?.status || 500, 'Failed to fetch agents');
+            next(error);
         }
     }
 
     /**
      * Deletes an agent.
-     * @param {Object} req.body - Request body
-     * @param {string} req.body.member_id - ID of the agent to delete
      */
-    async deleteAgent(req, res) {
+    async deleteAgent(req, res, next) {
         try {
-            const { member_id } = req.body;
-            await agentsService.deleteAgent({ member_id });
-
+            await agentsService.deleteAgent(req.body);
             res.status(204).send();
         } catch (error) {
-            errorResponse(res, error, error.response?.status || 500, 'Failed to delete agent');
+            next(error);
         }
     }
 
     /**
      * Links a DID number to an agent.
-     * @param {Object} req.body - Request body
-     * @param {string} req.body.deskphone - Deskphone to link
-     * @param {string} req.body.member_id - Member ID
      */
-    async linkDID(req, res) {
+    async linkDID(req, res, next) {
         try {
-            console.log("Linking deskphone to agent", req.body);
-            const { deskphone, member_id } = req.body;
-
-            const data = await agentsService.linkDID({ deskphone, member_id });
-
-            successResponse(res, data);
+            const data = await agentsService.linkDID(req.body);
+            res.success(data, 'DID linked successfully');
         } catch (error) {
-            console.log(error);
-            errorResponse(res, error, error.response?.status || 500, 'Failed to link DID to agent');
+            next(error);
         }
     }
 }

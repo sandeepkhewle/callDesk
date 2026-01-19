@@ -1,0 +1,816 @@
+{
+    "info": {
+        "_postman_id": "callerdesk-api-collection",
+        "name": "CallerDesk API",
+        "description": "API collection for CallerDesk services including Agents, Call Groups, Calls, Entities, and API Key management.",
+        "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+    },
+    "variable": [
+        {
+            "key": "base_url",
+            "value": "http://localhost:3001",
+            "type": "string"
+        }
+    ],
+    "item": [
+        {
+            "name": "Agents",
+            "item": [
+                {
+                    "name": "Create Agent",
+                    "request": {
+                        "method": "POST",
+                        "header": [],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\n    \"name\": \"John Doe\",\n    \"phone\": \"1234567890\",\n    \"entity_id\": \"entity_123\"\n}",
+                            "options": {
+                                "raw": {
+                                    "language": "json"
+                                }
+                            }
+                        },
+                        "url": {
+                            "raw": "{{base_url}}/agents/create",
+                            "host": [
+                                "{{base_url}}"
+                            ],
+                            "path": [
+                                "agents",
+                                "create"
+                            ]
+                        },
+                        "description": "Creates a new agent with name, phone, and associated entity ID."
+                    },
+                    "response": []
+                },
+                {
+                    "name": "Validate Agent Creation",
+                    "request": {
+                        "method": "POST",
+                        "header": [],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\n    \"entity_id\": \"entity_123\",\n    \"deskphone\": \"optional_deskphone\"\n}",
+                            "options": {
+                                "raw": {
+                                    "language": "json"
+                                }
+                            }
+                        },
+                        "url": {
+                            "raw": "{{base_url}}/agents/validate-creation",
+                            "host": [
+                                "{{base_url}}"
+                            ],
+                            "path": [
+                                "agents",
+                                "validate-creation"
+                            ]
+                        },
+                        "description": "Validates agent creation data before creating the agent."
+                    },
+                    "response": []
+                },
+                {
+                    "name": "Update Agent",
+                    "request": {
+                        "method": "POST",
+                        "header": [],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\n    \"member_id\": \"agent_123\",\n    \"name\": \"Jane Doe\"\n}",
+                            "options": {
+                                "raw": {
+                                    "language": "json"
+                                }
+                            }
+                        },
+                        "url": {
+                            "raw": "{{base_url}}/agents/update",
+                            "host": [
+                                "{{base_url}}"
+                            ],
+                            "path": [
+                                "agents",
+                                "update"
+                            ]
+                        },
+                        "description": "Updates an existing agent's details."
+                    },
+                    "response": []
+                },
+                {
+                    "name": "List Agents",
+                    "request": {
+                        "method": "POST",
+                        "header": [],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\n    \"page\": 1,\n    \"limit\": 50\n}",
+                            "options": {
+                                "raw": {
+                                    "language": "json"
+                                }
+                            }
+                        },
+                        "url": {
+                            "raw": "{{base_url}}/agents/list",
+                            "host": [
+                                "{{base_url}}"
+                            ],
+                            "path": [
+                                "agents",
+                                "list"
+                            ]
+                        },
+                        "description": "Retrieves a paginated list of agents."
+                    },
+                    "response": []
+                },
+                {
+                    "name": "Delete Agent",
+                    "request": {
+                        "method": "DELETE",
+                        "header": [],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\n    \"member_id\": \"agent_123\"\n}",
+                            "options": {
+                                "raw": {
+                                    "language": "json"
+                                }
+                            }
+                        },
+                        "url": {
+                            "raw": "{{base_url}}/agents/delete",
+                            "host": [
+                                "{{base_url}}"
+                            ],
+                            "path": [
+                                "agents",
+                                "delete"
+                            ]
+                        },
+                        "description": "Deletes an agent by member ID."
+                    },
+                    "response": []
+                },
+                {
+                    "name": "Link Deskphone",
+                    "request": {
+                        "method": "POST",
+                        "header": [],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\n    \"deskphone\": \"deskphone_123\",\n    \"member_id\": \"agent_123\"\n}",
+                            "options": {
+                                "raw": {
+                                    "language": "json"
+                                }
+                            }
+                        },
+                        "url": {
+                            "raw": "{{base_url}}/agents/link-deskphone",
+                            "host": [
+                                "{{base_url}}"
+                            ],
+                            "path": [
+                                "agents",
+                                "link-deskphone"
+                            ]
+                        },
+                        "description": "Links a DID deskphone number to an agent."
+                    },
+                    "response": []
+                }
+            ]
+        },
+        {
+            "name": "Call Groups",
+            "item": [
+                {
+                    "name": "Create Call Group",
+                    "request": {
+                        "method": "POST",
+                        "header": [],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\n    \"authcode\": \"your_api_key\",\n    \"name\": \"Support Team\",\n    \"deskphone_id\": \"desk_123\"\n}",
+                            "options": {
+                                "raw": {
+                                    "language": "json"
+                                }
+                            }
+                        },
+                        "url": {
+                            "raw": "{{base_url}}/callGroups/create",
+                            "host": [
+                                "{{base_url}}"
+                            ],
+                            "path": [
+                                "callGroups",
+                                "create"
+                            ]
+                        },
+                        "description": "Creates a new call group."
+                    },
+                    "response": []
+                },
+                {
+                    "name": "Update Call Group",
+                    "request": {
+                        "method": "POST",
+                        "header": [],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\n    \"group_id\": \"group_123\",\n    \"name\": \"Sales Team\"\n}",
+                            "options": {
+                                "raw": {
+                                    "language": "json"
+                                }
+                            }
+                        },
+                        "url": {
+                            "raw": "{{base_url}}/callGroups/update",
+                            "host": [
+                                "{{base_url}}"
+                            ],
+                            "path": [
+                                "callGroups",
+                                "update"
+                            ]
+                        },
+                        "description": "Updates an existing call group."
+                    },
+                    "response": []
+                },
+                {
+                    "name": "List Call Groups",
+                    "request": {
+                        "method": "POST",
+                        "header": [],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\n    \"authcode\": \"your_api_key\",\n    \"page\": 1,\n    \"limit\": 50\n}",
+                            "options": {
+                                "raw": {
+                                    "language": "json"
+                                }
+                            }
+                        },
+                        "url": {
+                            "raw": "{{base_url}}/callGroups/list",
+                            "host": [
+                                "{{base_url}}"
+                            ],
+                            "path": [
+                                "callGroups",
+                                "list"
+                            ]
+                        },
+                        "description": "Retrieves a list of call groups."
+                    },
+                    "response": []
+                },
+                {
+                    "name": "Delete Call Group",
+                    "request": {
+                        "method": "POST",
+                        "header": [],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\n    \"authcode\": \"your_api_key\",\n    \"group_id\": \"group_123\"\n}",
+                            "options": {
+                                "raw": {
+                                    "language": "json"
+                                }
+                            }
+                        },
+                        "url": {
+                            "raw": "{{base_url}}/callGroups/delete",
+                            "host": [
+                                "{{base_url}}"
+                            ],
+                            "path": [
+                                "callGroups",
+                                "delete"
+                            ]
+                        },
+                        "description": "Deletes a call group."
+                    },
+                    "response": []
+                }
+            ]
+        },
+        {
+            "name": "Calls",
+            "item": [
+                {
+                    "name": "Click to Call",
+                    "request": {
+                        "method": "GET",
+                        "header": [],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\n    \"calling_party_a\": \"agent_number\",\n    \"calling_party_b\": \"receiver_number\",\n    \"deskphone\": \"deskphone_number\",\n    \"authcode\": \"your_api_key\"\n}",
+                            "options": {
+                                "raw": {
+                                    "language": "json"
+                                }
+                            }
+                        },
+                        "url": {
+                            "raw": "{{base_url}}/calls/clickToCall",
+                            "host": [
+                                "{{base_url}}"
+                            ],
+                            "path": [
+                                "calls",
+                                "clickToCall"
+                            ]
+                        },
+                        "description": "Initiates a click-to-call session."
+                    },
+                    "response": []
+                },
+                {
+                    "name": "Click to Call via Group",
+                    "request": {
+                        "method": "GET",
+                        "header": [],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\n    \"calling_party_a\": \"agent_number\",\n    \"calling_party_b\": \"receiver_number\",\n    \"deskphone\": \"deskphone_number\",\n    \"authcode\": \"your_api_key\",\n    \"group_name\": \"Support\"\n}",
+                            "options": {
+                                "raw": {
+                                    "language": "json"
+                                }
+                            }
+                        },
+                        "url": {
+                            "raw": "{{base_url}}/calls/clickToCallViaCallGroup",
+                            "host": [
+                                "{{base_url}}"
+                            ],
+                            "path": [
+                                "calls",
+                                "clickToCallViaCallGroup"
+                            ]
+                        },
+                        "description": "Initiates a click-to-call via a specific call group."
+                    },
+                    "response": []
+                },
+                {
+                    "name": "Reserve Click to Call",
+                    "request": {
+                        "method": "GET",
+                        "header": [],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\n    \"calling_party_a\": \"receiver_number\",\n    \"calling_party_b\": \"agent_number\",\n    \"deskphone\": \"deskphone_number\",\n    \"authcode\": \"your_api_key\"\n}",
+                            "options": {
+                                "raw": {
+                                    "language": "json"
+                                }
+                            }
+                        },
+                        "url": {
+                            "raw": "{{base_url}}/calls/reserveClickToCall",
+                            "host": [
+                                "{{base_url}}"
+                            ],
+                            "path": [
+                                "calls",
+                                "reserveClickToCall"
+                            ]
+                        },
+                        "description": "Initiates a reserve click-to-call (reverse direction)."
+                    },
+                    "response": []
+                },
+                {
+                    "name": "Call Reports",
+                    "request": {
+                        "method": "POST",
+                        "header": [],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\n    \"authcode\": \"your_api_key\"\n}",
+                            "options": {
+                                "raw": {
+                                    "language": "json"
+                                }
+                            }
+                        },
+                        "url": {
+                            "raw": "{{base_url}}/calls/callReport",
+                            "host": [
+                                "{{base_url}}"
+                            ],
+                            "path": [
+                                "calls",
+                                "callReport"
+                            ]
+                        },
+                        "description": "Retrieves call reports."
+                    },
+                    "response": []
+                },
+                {
+                    "name": "IVR Numbers List",
+                    "request": {
+                        "method": "POST",
+                        "header": [],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\n    \"authcode\": \"your_api_key\"\n}",
+                            "options": {
+                                "raw": {
+                                    "language": "json"
+                                }
+                            }
+                        },
+                        "url": {
+                            "raw": "{{base_url}}/calls/ivrNumbersList",
+                            "host": [
+                                "{{base_url}}"
+                            ],
+                            "path": [
+                                "calls",
+                                "ivrNumbersList"
+                            ]
+                        },
+                        "description": "Retrieves the list of IVR numbers."
+                    },
+                    "response": []
+                }
+            ]
+        },
+        {
+            "name": "Dashboard",
+            "item": [
+                {
+                    "name": "Get Summary",
+                    "request": {
+                        "method": "POST",
+                        "header": [],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\n    \"authcode\": \"your_api_key\"\n}",
+                            "options": {
+                                "raw": {
+                                    "language": "json"
+                                }
+                            }
+                        },
+                        "url": {
+                            "raw": "{{base_url}}/dashboard/dashboardSummary",
+                            "host": [
+                                "{{base_url}}"
+                            ],
+                            "path": [
+                                "dashboard",
+                                "dashboardSummary"
+                            ]
+                        },
+                        "description": "Retrieves the dashboard summary data."
+                    },
+                    "response": []
+                }
+            ]
+        },
+        {
+            "name": "Entities",
+            "item": [
+                {
+                    "name": "Create Entity",
+                    "request": {
+                        "method": "POST",
+                        "header": [],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\n    \"name\": \"New Entity\",\n    \"address\": \"123 Main St\",\n    \"phone\": \"0000000000\",\n    \"authcode\": \"generated_authcode\"\n}",
+                            "options": {
+                                "raw": {
+                                    "language": "json"
+                                }
+                            }
+                        },
+                        "url": {
+                            "raw": "{{base_url}}/entities/create",
+                            "host": [
+                                "{{base_url}}"
+                            ],
+                            "path": [
+                                "entities",
+                                "create"
+                            ]
+                        },
+                        "description": "Creates a new entity."
+                    },
+                    "response": []
+                },
+                {
+                    "name": "Update Entity",
+                    "request": {
+                        "method": "POST",
+                        "header": [],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\n    \"entity_id\": \"entity_123\",\n    \"name\": \"Updated Name\"\n}",
+                            "options": {
+                                "raw": {
+                                    "language": "json"
+                                }
+                            }
+                        },
+                        "url": {
+                            "raw": "{{base_url}}/entities/update",
+                            "host": [
+                                "{{base_url}}"
+                            ],
+                            "path": [
+                                "entities",
+                                "update"
+                            ]
+                        },
+                        "description": "Updates an existing entity."
+                    },
+                    "response": []
+                },
+                {
+                    "name": "List Entities",
+                    "request": {
+                        "method": "POST",
+                        "header": [],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\n    \"page\": 1,\n    \"limit\": 50\n}",
+                            "options": {
+                                "raw": {
+                                    "language": "json"
+                                }
+                            }
+                        },
+                        "url": {
+                            "raw": "{{base_url}}/entities/list",
+                            "host": [
+                                "{{base_url}}"
+                            ],
+                            "path": [
+                                "entities",
+                                "list"
+                            ]
+                        },
+                        "description": "Retrieves a list of entities."
+                    },
+                    "response": []
+                },
+                {
+                    "name": "Get Entity",
+                    "request": {
+                        "method": "POST",
+                        "header": [],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\n    \"entity_id\": \"entity_123\"\n}",
+                            "options": {
+                                "raw": {
+                                    "language": "json"
+                                }
+                            }
+                        },
+                        "url": {
+                            "raw": "{{base_url}}/entities/get",
+                            "host": [
+                                "{{base_url}}"
+                            ],
+                            "path": [
+                                "entities",
+                                "get"
+                            ]
+                        },
+                        "description": "Retrieves a single entity by ID."
+                    },
+                    "response": []
+                },
+                {
+                    "name": "Delete Entity",
+                    "request": {
+                        "method": "POST",
+                        "header": [],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\n    \"entity_id\": \"entity_123\"\n}",
+                            "options": {
+                                "raw": {
+                                    "language": "json"
+                                }
+                            }
+                        },
+                        "url": {
+                            "raw": "{{base_url}}/entities/delete",
+                            "host": [
+                                "{{base_url}}"
+                            ],
+                            "path": [
+                                "entities",
+                                "delete"
+                            ]
+                        },
+                        "description": "Deletes an entity."
+                    },
+                    "response": []
+                }
+            ]
+        },
+        {
+            "name": "API Keys",
+            "item": [
+                {
+                    "name": "Create API Key",
+                    "request": {
+                        "method": "POST",
+                        "header": [],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\n    \"entityId\": \"entity_123\",\n    \"name\": \"Prod Key\"\n}",
+                            "options": {
+                                "raw": {
+                                    "language": "json"
+                                }
+                            }
+                        },
+                        "url": {
+                            "raw": "{{base_url}}/api-keys",
+                            "host": [
+                                "{{base_url}}"
+                            ],
+                            "path": [
+                                "api-keys"
+                            ]
+                        },
+                        "description": "Creates a new API key for a specific entity."
+                    },
+                    "response": []
+                },
+                {
+                    "name": "Get Entity API Keys",
+                    "request": {
+                        "method": "GET",
+                        "header": [],
+                        "url": {
+                            "raw": "{{base_url}}/api-keys/entity/entity_123",
+                            "host": [
+                                "{{base_url}}"
+                            ],
+                            "path": [
+                                "api-keys",
+                                "entity",
+                                "entity_123"
+                            ]
+                        },
+                        "description": "Retrieves all API keys associated with an entity."
+                    },
+                    "response": []
+                },
+                {
+                    "name": "Update API Key",
+                    "request": {
+                        "method": "PUT",
+                        "header": [],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\n    \"name\": \"Updated Key Name\"\n}",
+                            "options": {
+                                "raw": {
+                                    "language": "json"
+                                }
+                            }
+                        },
+                        "url": {
+                            "raw": "{{base_url}}/api-keys/key_123",
+                            "host": [
+                                "{{base_url}}"
+                            ],
+                            "path": [
+                                "api-keys",
+                                "key_123"
+                            ]
+                        },
+                        "description": "Updates an existing API key."
+                    },
+                    "response": []
+                },
+                {
+                    "name": "Delete API Key",
+                    "request": {
+                        "method": "DELETE",
+                        "header": [],
+                        "url": {
+                            "raw": "{{base_url}}/api-keys/key_123",
+                            "host": [
+                                "{{base_url}}"
+                            ],
+                            "path": [
+                                "api-keys",
+                                "key_123"
+                            ]
+                        },
+                        "description": "Deletes an API key."
+                    },
+                    "response": []
+                },
+                {
+                    "name": "Validate API Key",
+                    "request": {
+                        "method": "POST",
+                        "header": [],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\n    \"key\": \"your_api_key_string\"\n}",
+                            "options": {
+                                "raw": {
+                                    "language": "json"
+                                }
+                            }
+                        },
+                        "url": {
+                            "raw": "{{base_url}}/api-keys/validate",
+                            "host": [
+                                "{{base_url}}"
+                            ],
+                            "path": [
+                                "api-keys",
+                                "validate"
+                            ]
+                        },
+                        "description": "Validates an API key."
+                    },
+                    "response": []
+                }
+            ]
+        },
+        {
+            "name": "Webhooks",
+            "item": [
+                {
+                    "name": "Call Webhook",
+                    "request": {
+                        "method": "POST",
+                        "header": [],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\n    \"event\": \"call_started\"\n}",
+                            "options": {
+                                "raw": {
+                                    "language": "json"
+                                }
+                            }
+                        },
+                        "url": {
+                            "raw": "{{base_url}}/webhooks/calls",
+                            "host": [
+                                "{{base_url}}"
+                            ],
+                            "path": [
+                                "webhooks",
+                                "calls"
+                            ]
+                        }
+                    },
+                    "response": []
+                },
+                {
+                    "name": "SMS Webhook",
+                    "request": {
+                        "method": "POST",
+                        "header": [],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\n    \"message\": \"Hello\"\n}",
+                            "options": {
+                                "raw": {
+                                    "language": "json"
+                                }
+                            }
+                        },
+                        "url": {
+                            "raw": "{{base_url}}/webhooks/sms",
+                            "host": [
+                                "{{base_url}}"
+                            ],
+                            "path": [
+                                "webhooks",
+                                "sms"
+                            ]
+                        }
+                    },
+                    "response": []
+                }
+            ]
+        }
+    ]
+}

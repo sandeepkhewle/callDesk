@@ -1,27 +1,19 @@
 const express = require('express');
-const multer = require('multer');
-const agentsController = require('../controllers/agentsController');
-
 const router = express.Router();
+const agentsController = require('../controllers/agentsController');
+const validate = require('../middleware/validation.middleware');
+const {
+    createAgentSchema,
+    updateAgentSchema,
+    linkDIDSchema,
+    getAgentsSchema
+} = require('../schemas/agents.schema');
 
-const upload = multer();
-
-// Validate agent creation data
-router.post('/validate-creation', upload.none(), agentsController.validateAgentCreation);
-
-// Create agent
-router.post('/create', upload.none(), agentsController.createAgent);
-
-// Update agent
-router.post('/update', upload.none(), agentsController.updateAgent);
-
-// Get all agents
-router.post('/list', upload.none(), agentsController.getAgents);
-
-// Delete agent
-router.post('/delete', upload.none(), agentsController.deleteAgent);
-
-// Link DID number to agent
-router.post('/link-deskphone', upload.none(), agentsController.linkDID);
+router.post('/create', validate(createAgentSchema), agentsController.createAgent);
+router.post('/validate-creation', agentsController.validateAgentCreation); // Schema needed? or manual?
+router.put('/update', validate(updateAgentSchema), agentsController.updateAgent);
+router.post('/list', validate(getAgentsSchema), agentsController.getAgents);
+router.delete('/delete', agentsController.deleteAgent); // Need schema for delete (member_id)
+router.post('/link-did', validate(linkDIDSchema), agentsController.linkDID);
 
 module.exports = router;

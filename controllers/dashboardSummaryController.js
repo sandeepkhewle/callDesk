@@ -1,24 +1,19 @@
 const dashboardSummaryService = require('../services/dashboardSummaryService.js');
-const { successResponse, errorResponse } = require('../helpers/responseHelper');
 
-class dashboardSummaryController {
+class DashboardSummaryController {
     /**
      * Retrieves the dashboard summary.
-     * @param {Object} req.body - Request body
-     * @param {string} req.body.authcode - Authentication code for API access (API key)
      */
-    async getDashboardSummary(req, res) {
+    async getDashboardSummary(req, res, next) {
         try {
             console.log("dashboardSummary", req.body);
             const { authcode } = req.body;
             const data = await dashboardSummaryService.getDashboardSummary(authcode);
-            successResponse(res, data);
+            res.success(data, 'Dashboard summary fetched successfully');
         } catch (error) {
-            const status = error.message === 'Authcode is required' ? 400 : error.response?.status || 500;
-            const message = error.message === 'Authcode is required' ? 'Bad Request' : 'Failed to fetch dashboard summary';
-            errorResponse(res, error, status, message);
+            next(error);
         }
     }
 }
 
-module.exports = new dashboardSummaryController();
+module.exports = new DashboardSummaryController();

@@ -1,86 +1,71 @@
 const apiKeyService = require('../services/apiKeyService');
-const { successResponse, errorResponse } = require('../helpers/responseHelper');
 
 class ApiKeyController {
     /**
      * Creates a new API key.
-     * @param {Object} req.body
-     * @param {string} req.body.entityId
-     * @param {string} req.body.name
      */
-    async createKey(req, res) {
+    async createKey(req, res, next) {
         try {
             const data = await apiKeyService.createApiKey(req.body);
-            successResponse(res, data, 201, 'API Key created successfully');
+            res.success(data, 'API Key created successfully', 201);
         } catch (error) {
-            errorResponse(res, error, 500, 'Failed to create API Key');
+            next(error);
         }
     }
 
     /**
      * Updates an API key.
-     * @param {Object} req.params
-     * @param {string} req.params.id
-     * @param {Object} req.body
      */
-    async updateKey(req, res) {
+    async updateKey(req, res, next) {
         try {
             const { id } = req.params;
             const data = await apiKeyService.updateApiKey({ id, ...req.body });
-            successResponse(res, data, 200, 'API Key updated successfully');
+            res.success(data, 'API Key updated successfully');
         } catch (error) {
-            errorResponse(res, error, 500, 'Failed to update API Key');
+            next(error);
         }
     }
 
     /**
      * Deletes an API key.
-     * @param {Object} req.params
-     * @param {string} req.params.id
      */
-    async deleteKey(req, res) {
+    async deleteKey(req, res, next) {
         try {
             const { id } = req.params;
             const data = await apiKeyService.deleteApiKey(id);
-            successResponse(res, data, 200, 'API Key deleted successfully');
+            res.success(data, 'API Key deleted successfully');
         } catch (error) {
-            errorResponse(res, error, 500, 'Failed to delete API Key');
+            next(error);
         }
     }
 
     /**
      * Validates an API key.
-     * @param {Object} req.body
-     * @param {string} req.body.key
      */
-    async validateKey(req, res) {
+    async validateKey(req, res, next) {
         try {
             const { key } = req.body;
-            if (!key) {
-                return errorResponse(res, new Error('API Key is required'), 400);
-            }
+            // validation handled by middleware now, but keeping check for safety if middleware bypassed
             const data = await apiKeyService.validateApiKey(key);
             if (!data.isValid) {
-                return errorResponse(res, new Error(data.message), 401);
+                return res.error(data.message, 401);
             }
-            successResponse(res, data, 200, 'API Key validated successfully');
+            res.success(data, 'API Key validated successfully');
         } catch (error) {
-            errorResponse(res, error, 500, 'Failed to validate API Key');
+            next(error);
         }
     }
 
     /**
      * Gets all API keys for an entity.
-     * @param {Object} req.params
-     * @param {string} req.params.entityId
      */
-    async getKeysByEntity(req, res) {
+    async getKeysByEntity(req, res, next) {
         try {
             const { entityId } = req.params;
             const data = await apiKeyService.getApiKeysByEntity(entityId);
-            successResponse(res, data);
+            res.success(data, 'API Keys fetched successfully');
         } catch (error) {
-            errorResponse(res, error, 500, 'Failed to fetch API Keys');
+            next(error);
         }
     }
 }

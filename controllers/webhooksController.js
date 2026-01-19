@@ -1,44 +1,29 @@
 const webhooksService = require('../services/webhooksService');
-const { successResponse, errorResponse } = require('../helpers/responseHelper');
 
 class WebhooksController {
     /**
      * Handles incoming call webhooks.
-     * @param {Object} req.body - Request body
-     * @param {string} req.body.call_id - Unique identifier for the call
-     * @param {string} req.body.status - Status of the call
-     * @param {string} req.body.duration - Duration of the call
-     * @param {string} req.body.agent_id - ID of the agent involved in the call
      */
-    async handleCallWebhook(req, res) {
+    async handleCallWebhook(req, res, next) {
         try {
-            const { call_id, status, duration, agent_id } = req.body;
-
-            const result = await webhooksService.processCallWebhook({ call_id, status, duration, agent_id });
-
-            successResponse(res, { received: true });
+            // Webhooks often need a quick 200 OK
+            // Processing can be async or synchronous depending on requirements
+            const result = await webhooksService.processCallWebhook(req.body);
+            res.success({ received: true }, 'Webhook received');
         } catch (error) {
-            errorResponse(res, error, 500, 'Failed to process call webhook');
+            next(error);
         }
     }
 
     /**
      * Handles incoming SMS webhooks.
-     * @param {Object} req.body - Request body
-     * @param {string} req.body.message_id - Unique identifier for the SMS message
-     * @param {string} req.body.status - Status of the SMS
-     * @param {string} req.body.to_number - Recipient phone number
-     * @param {string} req.body.from_number - Sender phone number
      */
-    async handleSmsWebhook(req, res) {
+    async handleSmsWebhook(req, res, next) {
         try {
-            const { message_id, status, to_number, from_number } = req.body;
-
-            const result = await webhooksService.processSmsWebhook({ message_id, status, to_number, from_number });
-
-            successResponse(res, { received: true });
+            const result = await webhooksService.processSmsWebhook(req.body);
+            res.success({ received: true }, 'Webhook received');
         } catch (error) {
-            errorResponse(res, error, 500, 'Failed to process SMS webhook');
+            next(error);
         }
     }
 }

@@ -1,75 +1,54 @@
 const callGroupsService = require('../services/callGroupsService');
-const { successResponse, errorResponse } = require('../helpers/responseHelper');
 
 class CallGroupsController {
     /**
      * Creates a new call group.
-     * @param {Object} req.body - Request body
-     * @param {string} req.body.authcode - Authentication code for API access (API key)
-     * @param {string} req.body.name - Name of the call group
-     * @param {string} req.body.deskphone_id - ID of the deskphone associated with the group
      */
-    async createCallGroup(req, res) {
+    async createCallGroup(req, res, next) {
         try {
             console.log("Creating new call group", req.body);
-            const { authcode, name, deskphone_id } = req.body;
-
-            const data = await callGroupsService.createCallGroup({ authcode, name, deskphone_id });
-
-            successResponse(res, data, 201);
+            const data = await callGroupsService.createCallGroup(req.body);
+            res.success(data, 'Call group created successfully', 201);
         } catch (error) {
-            console.log(error);
-            errorResponse(res, error, error.response?.status || 500, 'Failed to create call group');
+            next(error);
         }
     }
 
     /**
      * Updates an existing call group.
-     * @param {Object} req.body - Request body (full body passed to service)
      */
-    async updateCallGroup(req, res) {
+    async updateCallGroup(req, res, next) {
         try {
             console.log("Updating call group", req.body);
-
             const data = await callGroupsService.updateCallGroup(req.body);
-            successResponse(res, data);
+            res.success(data, 'Call group updated successfully');
         } catch (error) {
-            errorResponse(res, error, error.response?.status || 500, 'Failed to update call group');
+            next(error);
         }
     }
 
     /**
      * Retrieves a list of call groups.
-     * @param {Object} req.body - Request body
-     * @param {string} req.body.authcode - Authentication code for API access (API key)
-     * @param {number} [req.body.page=1] - Page number for pagination
-     * @param {number} [req.body.limit=50] - Number of call groups per page
      */
-    async getCallGroups(req, res) {
+    async getCallGroups(req, res, next) {
         try {
-            const { authcode, page = 1, limit = 50 } = req.body;
-
+            const { authcode, page, limit } = req.body;
             const data = await callGroupsService.getCallGroups({ authcode, page, limit });
-            successResponse(res, data);
+            res.success(data, 'Call groups fetched successfully');
         } catch (error) {
-            errorResponse(res, error, error.response?.status || 500, 'Failed to fetch call groups');
+            next(error);
         }
     }
 
     /**
      * Deletes a call group.
-     * @param {Object} req.body - Request body
-     * @param {string} req.body.authcode - Authentication code for API access (API key)
-     * @param {string} req.body.group_id - ID of the call group to delete
      */
-    async deleteCallGroup(req, res) {
+    async deleteCallGroup(req, res, next) {
         try {
-            const { authcode, group_id } = req.body;
-            await callGroupsService.deleteCallGroup({ authcode, group_id });
-
+            await callGroupsService.deleteCallGroup(req.body);
             res.status(204).send();
         } catch (error) {
-            errorResponse(res, error, error.response?.status || 500, 'Failed to delete call group');
+            next(error);
         }
     }
 }

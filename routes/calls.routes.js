@@ -1,24 +1,18 @@
 const express = require('express');
-const multer = require('multer');
-const callsController = require('../controllers/callsController');
-
 const router = express.Router();
+const callsController = require('../controllers/callsController');
+const validate = require('../middleware/validation.middleware');
+const {
+    clickToCallSchema,
+    clickToCallViaGroupSchema,
+    reserveClickToCallSchema,
+    authCodeSchema
+} = require('../schemas/calls.schema');
 
-const upload = multer();
-
-// Click to Call
-router.get('/clickToCall', upload.none(), callsController.clickToCall);
-
-// Click to Call via Call Group
-router.get('/clickToCallViaCallGroup', upload.none(), callsController.clickToCallViaCallGroup);
-
-// Reserve Click to call
-router.get('/reserveClickToCall', upload.none(), callsController.reserveClickToCall);
-
-// Call Report
-router.post('/callReport', upload.none(), callsController.callReports);
-
-// IVR number list
-router.post('/ivrNumbersList', upload.none(), callsController.getIvrNumbersList);
+router.post('/click-to-call', validate(clickToCallSchema), callsController.clickToCall);
+router.post('/click-to-call-group', validate(clickToCallViaGroupSchema), callsController.clickToCallViaCallGroup);
+router.post('/reserve-click-to-call', validate(reserveClickToCallSchema), callsController.reserveClickToCall);
+router.post('/reports', validate(authCodeSchema), callsController.callReports); // Assuming authcode is required
+router.post('/ivr-numbers', validate(authCodeSchema), callsController.getIvrNumbersList);
 
 module.exports = router;
