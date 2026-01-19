@@ -1,28 +1,47 @@
 const axios = require('axios');
 const { validateRequired, validateEnvironmentVars } = require('../helpers/validationHelper');
+const Entity = require('../models/entity.model');
+const apiKeyService = require('./apiKeyService');
 
 const BASE_URL = process.env.CALLERDESK_BASE_URL;
-const API_KEY = process.env.CALLERDESK_API_KEY;
 
 class CallsService {
+
+    /**
+     * Helper to retrieve the specific API Key for an Entity using its AuthCode
+     * @param {string} authcode 
+     * @returns {Promise<string>} decrypted api key
+     */
+    async _getSdkKey(authcode) {
+        if (!authcode) throw new Error("Authcode is required to determine API context");
+
+        const entity = await Entity.findOne({ authcode });
+        if (!entity) catchError(new Error("Invalid authcode: Entity not found at " + authcode));
+        if (!entity) throw new Error("Invalid authcode: Entity not found");
+
+        return await apiKeyService.getDecryptedKey(entity._id);
+    }
+
     async clickToCall(callData) {
         try {
             // Validate required parameters
             validateRequired(callData, ['calling_party_a', 'calling_party_b', 'deskphone', 'authcode']);
 
-            // Validate environment variables
+            // Validate environment variables (Base URL only)
             validateEnvironmentVars([
-                { name: 'CALLERDESK_BASE_URL', value: BASE_URL },
-                { name: 'CALLERDESK_API_KEY', value: API_KEY }
+                { name: 'CALLERDESK_BASE_URL', value: BASE_URL }
             ]);
 
             // Extract validated parameters
             const { calling_party_a, calling_party_b, deskphone, authcode } = callData;
 
+            // Get Dynamic Key
+            const apiKey = await this._getSdkKey(authcode);
+
             const response = await axios.get(`${BASE_URL}/click_to_call_v2?calling_party_a=${calling_party_a}&calling_party_b=${calling_party_b}&deskphone=${deskphone}&authcode=${authcode}&call_from_did=1`,
                 {
                     headers: {
-                        'Authorization': `${API_KEY}`,
+                        'Authorization': `${apiKey}`,
                         'Content-Type': 'application/x-www-form-urlencoded'
                     },
                 }
@@ -31,176 +50,124 @@ class CallsService {
             return response.data;
 
         } catch (error) {
-            // Handle axios errors
-            if (error.response) {
-                // The request was made and the server responded with a status code outside 2xx
-                const status = error.response.status;
-                const data = error.response.data;
-
-                if (status === 400) {
-                    throw new Error(`Bad Request: ${data?.message || 'Invalid parameters provided'}`);
-                } else if (status === 401) {
-                    throw new Error(`Unauthorized: ${data?.message || 'Invalid API key or authentication failed'}`);
-                } else if (status === 403) {
-                    throw new Error(`Forbidden: ${data?.message || 'Access denied'}`);
-                } else if (status === 404) {
-                    throw new Error(`Not Found: ${data?.message || 'API endpoint not found'}`);
-                } else if (status === 429) {
-                    throw new Error(`Rate Limited: ${data?.message || 'Too many requests'}`);
-                } else if (status >= 500) {
-                    throw new Error(`Server Error: ${data?.message || 'Internal server error'}`);
-                } else {
-                    throw new Error(`API Error (${status}): ${data?.message || 'Unknown error'}`);
-                }
-            } else if (error.request) {
-                // The request was made but no response was received
-                throw new Error('Network Error: No response received from server. Please check your internet connection.');
-            } else if (error.code === 'ECONNABORTED') {
-                // Timeout error
-                throw new Error('Request Timeout: The request took too long to complete.');
-            } else {
-                // Something else happened in setting up the request
-                throw new Error(`Request Error: ${error.message || 'Unknown error occurred'}`);
-            }
+            this._handleError(error);
         }
     }
 
     async clickToCallViaCallGroup(callData) {
         try {
-            // Validate required parameters
             validateRequired(callData, ['calling_party_a', 'calling_party_b', 'deskphone', 'authcode', 'group_name']);
-            // Validate environment variables
             validateEnvironmentVars([
-                { name: 'CALLERDESK_BASE_URL', value: BASE_URL },
-                { name: 'CALLERDESK_API_KEY', value: API_KEY }
+                { name: 'CALLERDESK_BASE_URL', value: BASE_URL }
             ]);
-            // Extract validated parameters
+
             const { calling_party_a, calling_party_b, deskphone, authcode, group_name } = callData;
+
+            const apiKey = await this._getSdkKey(authcode);
+
             const response = await axios.get(`${BASE_URL}/click_to_call_v2?calling_party_a=${calling_party_a}&calling_party_b=${calling_party_b}&deskphone=${deskphone}&authcode=${authcode}&group_name=${group_name}&call_from_did=1`,
                 {
                     headers: {
-                        'Authorization': `${API_KEY}`,
+                        'Authorization': `${apiKey}`,
                         'Content-Type': 'application/x-www-form-urlencoded'
                     },
                 }
             );
             return response.data;
         } catch (error) {
-            // Handle axios errors
-            if (error.response) {
-                // The request was made and the server responded with a status code outside 2xx
-                const status = error.response.status;
-                const data = error.response.data;
-
-                if (status === 400) {
-                    throw new Error(`Bad Request: ${data?.message || 'Invalid parameters provided'}`);
-                } else if (status === 401) {
-                    throw new Error(`Unauthorized: ${data?.message || 'Invalid API key or authentication failed'}`);
-                } else if (status === 403) {
-                    throw new Error(`Forbidden: ${data?.message || 'Access denied'}`);
-                } else if (status === 404) {
-                    throw new Error(`Not Found: ${data?.message || 'API endpoint not found'}`);
-                } else if (status === 429) {
-                    throw new Error(`Rate Limited: ${data?.message || 'Too many requests'}`);
-                } else if (status >= 500) {
-                    throw new Error(`Server Error: ${data?.message || 'Internal server error'}`);
-                } else {
-                    throw new Error(`API Error (${status}): ${data?.message || 'Unknown error'}`);
-                }
-            } else if (error.request) {
-                // The request was made but no response was received
-                throw new Error('Network Error: No response received from server. Please check your internet connection.');
-            } else if (error.code === 'ECONNABORTED') {
-                // Timeout error
-                throw new Error('Request Timeout: The request took too long to complete.');
-            } else {
-                // Something else happened in setting up the request
-                throw new Error(`Request Error: ${error.message || 'Unknown error occurred'}`);
-            }
+            this._handleError(error);
         }
     }
 
     async reserveClickToCall(callData) {
         try {
-            // Validate required parameters
             validateRequired(callData, ['calling_party_a', 'calling_party_b', 'deskphone', 'authcode']);
-            // Validate environment variables
             validateEnvironmentVars([
-                { name: 'CALLERDESK_BASE_URL', value: BASE_URL },
-                { name: 'CALLERDESK_API_KEY', value: API_KEY }
+                { name: 'CALLERDESK_BASE_URL', value: BASE_URL }
             ]);
-            // Extract validated parameters
+
             const { calling_party_a, calling_party_b, deskphone, authcode } = callData;
+
+            const apiKey = await this._getSdkKey(authcode);
+
             const response = await axios.get(`${BASE_URL}/click_to_call_v3?calling_party_a=${calling_party_a}&calling_party_b=${calling_party_b}&deskphone=${deskphone}&authcode=${authcode}&call_from_did=1`,
                 { calling_party_a, calling_party_b, deskphone, authcode },
                 {
                     headers: {
-                        'Authorization': `${API_KEY}`,
+                        'Authorization': `${apiKey}`,
                         'Content-Type': 'application/x-www-form-urlencoded'
                     },
                 }
             );
             return response.data;
         } catch (error) {
-            // Handle axios errors
-            if (error.response) {
-                // The request was made and the server responded with a status code outside 2xx
-                const status = error.response.status;
-                const data = error.response.data;
-                if (status === 400) {
-                    throw new Error(`Bad Request: ${data?.message || 'Invalid parameters provided'}`);
-                } else if (status === 401) {
-                    throw new Error(`Unauthorized: ${data?.message || 'Invalid API key or authentication failed'}`);
-                } else if (status === 403) {
-                    throw new Error(`Forbidden: ${data?.message || 'Access denied'}`);
-                } else if (status === 404) {
-                    throw new Error(`Not Found: ${data?.message || 'API endpoint not found'}`);
-                } else if (status === 429) {
-                    throw new Error(`Rate Limited: ${data?.message || 'Too many requests'}`);
-                } else if (status >= 500) {
-                    throw new Error(`Server Error: ${data?.message || 'Internal server error'}`);
-                } else {
-                    throw new Error(`API Error (${status}): ${data?.message || 'Unknown error'}`);
-                }
-            } else if (error.request) {
-                // The request was made but no response was received
-                throw new Error('Network Error: No response received from server. Please check your internet connection.');
-            } else if (error.code === 'ECONNABORTED') {
-                // Timeout error
-                throw new Error('Request Timeout: The request took too long to complete.');
-            } else {
-                // Something else happened in setting up the request
-                throw new Error(`Request Error: ${error.message || 'Unknown error occurred'}`);
-            }
+            this._handleError(error);
         }
     }
 
     async callReport(authcode) {
-        const response = await axios.post(`${BASE_URL}/call_list_v2`,
-            { authcode },
-            {
-                headers: {
-                    'Authorization': `${API_KEY}`,
-                    'Content-Type': 'application/x-www-form-urlencoded'
-                }
-            }
-        );
+        try {
+            if (!authcode) throw new Error("Authcode required");
+            const apiKey = await this._getSdkKey(authcode);
 
-        return response.data;
+            const response = await axios.post(`${BASE_URL}/call_list_v2`,
+                { authcode },
+                {
+                    headers: {
+                        'Authorization': `${apiKey}`,
+                        'Content-Type': 'application/x-www-form-urlencoded'
+                    }
+                }
+            );
+
+            return response.data;
+        } catch (error) {
+            this._handleError(error);
+        }
     }
 
     async getIvrNumbersList(authcode) {
-        const response = await axios.post(`${BASE_URL}/getdeskphone_v2`,
-            { authcode },
-            {
-                headers: {
-                    'Authorization': `${API_KEY}`,
-                    'Content-Type': 'application/x-www-form-urlencoded'
-                }
-            }
-        );
+        try {
+            if (!authcode) throw new Error("Authcode required");
+            const apiKey = await this._getSdkKey(authcode);
 
-        return response.data;
+            const response = await axios.post(`${BASE_URL}/getdeskphone_v2`,
+                { authcode },
+                {
+                    headers: {
+                        'Authorization': `${apiKey}`,
+                        'Content-Type': 'application/x-www-form-urlencoded'
+                    }
+                }
+            );
+
+            return response.data;
+        } catch (error) {
+            this._handleError(error);
+        }
+    }
+
+    // Centralized error handling helper
+    _handleError(error) {
+        if (error.response) {
+            const status = error.response.status;
+            const data = error.response.data;
+            const msg = data?.message || 'Unknown error';
+
+            if (status === 400) throw new Error(`Bad Request: ${msg}`);
+            if (status === 401) throw new Error(`Unauthorized: ${msg}`);
+            if (status === 403) throw new Error(`Forbidden: ${msg}`);
+            if (status === 404) throw new Error(`Not Found: ${msg}`);
+            if (status === 429) throw new Error(`Rate Limited: ${msg}`);
+            if (status >= 500) throw new Error(`Server Error: ${msg}`);
+            throw new Error(`API Error (${status}): ${msg}`);
+        } else if (error.request) {
+            throw new Error('Network Error: No response received.');
+        } else if (error.code === 'ECONNABORTED') {
+            throw new Error('Request Timeout.');
+        } else {
+            throw error; // Re-throw standard errors
+        }
     }
 }
 

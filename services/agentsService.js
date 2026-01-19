@@ -1,26 +1,55 @@
 const axios = require('axios');
 const Agent = require('../models/agent.model');
+const Entity = require('../models/entity.model');
+const apiKeyService = require('./apiKeyService');
 const mongoose = require('mongoose');
 
 class AgentsService {
 
     constructor() {
         this.BASE_URL = process.env.CALLERDESK_BASE_URL;
-        this.API_KEY = process.env.CALLERDESK_API_KEY;
     }
+
+    async _getKeyByEntityId(entityId) {
+        return await apiKeyService.getDecryptedKey(entityId);
+    }
+
+    async _getKeyByAuthCode(authcode) {
+        if (!authcode) throw new Error("Authcode required");
+        const entity = await Entity.findOne({ authcode });
+        if (!entity) throw new Error("Entity not found for authcode");
+        return await apiKeyService.getDecryptedKey(entity._id);
+    }
+
+    /**
+     * Resolves API Key by finding the agent and its associated entity
+     * @param {string} member_id 
+     */
+    async _getKeyByMemberId(member_id) {
+        const agent = await Agent.findOne({ user_id: member_id });
+        if (!agent) throw new Error("Agent not found locally");
+        return await apiKeyService.getDecryptedKey(agent.entity);
+    }
+
     async createAgent(agentData) {
         const { name, phone, entity_id } = agentData;
+
+        // Dynamic Key Lookup
+        const apiKey = await this._getKeyByEntityId(entity_id);
+
         const agent_id = Math.floor(1000000 + Math.random() * 9000000).toString();
 
         const response = await axios.post(`${this.BASE_URL}/addmember_v2`, {
-            authcode: this.API_KEY,
+            authcode: apiKey, // Use the dynamic key as authcode payload if required by API logic, OR just header?
+            // Original code sent `authcode: this.API_KEY` in body AND header.
+            // We will send dynamic key in both to match legacy behavior.
             member_name: name,
             member_num: phone,
             access: 2,
             active: 1
         }, {
             headers: {
-                'Authorization': `${this.API_KEY}`,
+                'Authorization': `${apiKey}`,
                 'Content-Type': 'application/x-www-form-urlencoded'
             }
         });
@@ -41,20 +70,10 @@ class AgentsService {
         return response.data;
     }
 
-    /**
-     * Validates agent creation data before creating the agent
-     * - Checks if deskphone is already linked to another agent in the same entity
-     * - Validates entity existence
-     * @param {Object} agentData - Agent data to validate
-     * @param {string} agentData.entity_id - Entity ID
-     * @param {string} [agentData.deskphone] - Deskphone number (optional)
-     * @returns {Object} Validation result with success status and message
-     */
     async validateAgentCreation(agentData) {
         const { entity_id, deskphone } = agentData;
 
         // Check if entity exists
-        const Entity = require('../models/entity.model');
         const entity = await Entity.findById(entity_id);
         if (!entity) {
             return {
@@ -86,15 +105,19 @@ class AgentsService {
     }
 
     async updateAgent(agentData) {
+        const { member_id, member_name, member_num } = agentData;
+
+        // Dynamic Key Lookup via Member ID
+        const apiKey = await this._getKeyByMemberId(member_id);
+
         const response = await axios.post(`${this.BASE_URL}/updatemember_v2`, agentData, {
             headers: {
-                'Authorization': `${this.API_KEY}`,
+                'Authorization': `${apiKey}`,
                 'Content-Type': 'application/x-www-form-urlencoded'
             }
         });
 
         // Update local database
-        const { member_id, member_name, member_num, } = agentData;
         await Agent.findOneAndUpdate(
             { user_id: member_id },
             { name: member_name, phone: member_num, }
@@ -103,10 +126,13 @@ class AgentsService {
         return response.data;
     }
 
-    async getAgents({ page = 1, limit = 50 }) {
-        const response = await axios.post(`${this.BASE_URL}/getmemberlist_V2`, { authcode: this.API_KEY }, {
+    async getAgents({ page = 1, limit = 50, authcode }) {
+        // Require authcode to identify context
+        const apiKey = await this._getKeyByAuthCode(authcode);
+
+        const response = await axios.post(`${this.BASE_URL}/getmemberlist_V2`, { authcode: apiKey }, {
             headers: {
-                'Authorization': `${this.API_KEY}`,
+                'Authorization': `${apiKey}`,
                 'Content-Type': 'application/x-www-form-urlencoded'
             },
             params: { current_page: page, per_page: limit }
@@ -117,11 +143,14 @@ class AgentsService {
 
     async deleteAgent(agentData) {
         const { member_id } = agentData;
+
+        const apiKey = await this._getKeyByMemberId(member_id);
+
         const response = await axios.post(`${this.BASE_URL}/deletemember_v2`,
-            { authcode: this.API_KEY, member_id },
+            { authcode: apiKey, member_id },
             {
                 headers: {
-                    'Authorization': `${this.API_KEY}`,
+                    'Authorization': `${apiKey}`,
                     'Content-Type': 'application/x-www-form-urlencoded'
                 }
             }

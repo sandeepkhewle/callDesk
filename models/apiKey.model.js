@@ -6,11 +6,19 @@ const apiKeySchema = new mongoose.Schema({
         ref: 'Entity',
         required: true
     },
-    key: {
+    keyHash: {
         type: String,
         required: true,
         unique: true,
         index: true
+    },
+    encryptedKey: {
+        type: String,
+        required: true
+    },
+    iv: {
+        type: String,
+        required: true
     },
     name: {
         type: String,
