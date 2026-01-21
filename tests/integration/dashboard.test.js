@@ -12,7 +12,7 @@ describe('Dashboard Integration Tests', () => {
 
     describe('POST /dashboard/dashboardSummary', () => {
         it('should get dashboard summary', async () => {
-            const mockBody = { authcode: 'key' };
+            const mockBody = { entityId: 'e1' };
             const mockResult = { totalCalls: 100 };
             dashboardSummaryService.getDashboardSummary.mockResolvedValue(mockResult);
 
@@ -22,7 +22,7 @@ describe('Dashboard Integration Tests', () => {
 
             expect(res.statusCode).toBe(200);
             expect(res.body.data).toEqual(mockResult);
-            expect(dashboardSummaryService.getDashboardSummary).toHaveBeenCalledWith('key');
+            expect(dashboardSummaryService.getDashboardSummary).toHaveBeenCalledWith('e1');
         });
     });
 });

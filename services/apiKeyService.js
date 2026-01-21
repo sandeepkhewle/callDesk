@@ -43,11 +43,17 @@ class ApiKeyService {
      * @param {Object} data
      * @param {string} data.entityId
      * @param {string} data.name
+     * @param {string} data.key - The API key provided by the user
      * @returns {Promise<Object>}
      */
     async createApiKey(data) {
-        const { entityId, name } = data;
-        const rawKey = this.generateKey();
+        const { entityId, name, key } = data;
+
+        if (!key) {
+            throw new Error('API Key is required');
+        }
+
+        const rawKey = key;
 
         // 1. Hash for Lookup
         const keyHash = this._hash(rawKey);
@@ -70,18 +76,27 @@ class ApiKeyService {
     }
 
     /**
-     * Updates an API key (name or status).
+     * Updates an API key (name, status, or key value).
      * @param {Object} data
      * @param {string} data.id
      * @param {string} [data.name]
      * @param {boolean} [data.isActive]
+     * @param {string} [data.key] - Optional new key value
      * @returns {Promise<Object>}
      */
     async updateApiKey(data) {
-        const { id, name, isActive } = data;
+        const { id, name, isActive, key } = data;
         const updateData = {};
         if (name !== undefined) updateData.name = name;
         if (isActive !== undefined) updateData.isActive = isActive;
+
+        if (key) {
+            const rawKey = key;
+            updateData.keyHash = this._hash(rawKey);
+            const { iv, encryptedData } = this._encrypt(rawKey);
+            updateData.encryptedKey = encryptedData;
+            updateData.iv = iv;
+        }
 
         const updatedKey = await ApiKey.findByIdAndUpdate(id, updateData, { new: true });
         if (!updatedKey) {

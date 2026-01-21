@@ -32,8 +32,8 @@ class CallGroupsController {
      */
     async getCallGroups(req, res, next) {
         try {
-            const { authcode, page, limit } = req.body;
-            const data = await callGroupsService.getCallGroups({ authcode, page, limit });
+            const { entityId, page, limit } = req.body;
+            const data = await callGroupsService.getCallGroups({ entityId, page, limit });
             res.success(data, 'Call groups fetched successfully');
         } catch (error) {
             next(error);

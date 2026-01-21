@@ -1,0 +1,125 @@
+
+> callerdesk-node@1.0.0 test
+> jest tests/integration/secureFlow.test.js tests/integration/webhooks_processing.test.js tests/integration/secure_call.test.js tests/integration/agents.test.js
+
+PASS tests/integration/secureFlow.test.js
+::ffff:127.0.0.1 - - [20/Jan/2026:13:40:18 +0000] "POST /agents/create HTTP/1.1" 201 156 "-" "-"
+::ffff:127.0.0.1 - - [20/Jan/2026:13:40:18 +0000] "POST /agents/create HTTP/1.1" 400 338 "-" "-"
+::ffff:127.0.0.1 - - [20/Jan/2026:13:40:18 +0000] "POST /agents/validate-creation HTTP/1.1" 200 84 "-" "-"
+::ffff:127.0.0.1 - - [20/Jan/2026:13:40:18 +0000] "PUT /agents/update HTTP/1.1" 200 116 "-" "-"
+::ffff:127.0.0.1 - - [20/Jan/2026:13:40:18 +0000] "POST /agents/list HTTP/1.1" 200 97 "-" "-"
+::ffff:127.0.0.1 - - [20/Jan/2026:13:40:18 +0000] "DELETE /agents/delete HTTP/1.1" 204 - "-" "-"
+::ffff:127.0.0.1 - - [20/Jan/2026:13:40:18 +0000] "POST /agents/link-did HTTP/1.1" 200 117 "-" "-"
+PASS tests/integration/agents.test.js
+  ● Console
+
+    console.log
+      [dotenv@17.2.3] injecting env (4) from .env -- tip: ⚙️  write to custom object with { processEnv: myObject }
+
+      at _log (node_modules/dotenv/lib/main.js:142:11)
+
+    console.log
+      Connected to MongoDB
+
+      at log (app.js:69:25)
+
+PASS tests/integration/webhooks_processing.test.js
+  ● Console
+
+    console.log
+      Webhook processed for call_id: PROVIDER_CALL_123, status: RINGING
+
+      at WebhooksService.log [as processCallWebhook] (services/webhooksService.js:60:17)
+
+    console.log
+      Webhook processed for call_id: PROVIDER_CALL_123, status: ANSWERED
+
+      at WebhooksService.log [as processCallWebhook] (services/webhooksService.js:60:17)
+
+    console.log
+      Webhook processed for call_id: PROVIDER_CALL_123, status: COMPLETED
+
+      at WebhooksService.log [as processCallWebhook] (services/webhooksService.js:60:17)
+
+    console.log
+      Webhook processed for call_id: PROVIDER_CALL_123, status: FAILED
+
+      at WebhooksService.log [as processCallWebhook] (services/webhooksService.js:60:17)
+
+    console.log
+      Webhook processed for call_id: PROVIDER_CALL_123, status: BUSY
+
+      at WebhooksService.log [as processCallWebhook] (services/webhooksService.js:60:17)
+
+    console.log
+      Webhook processed for call_id: PROVIDER_CALL_123, status: NO_ANSWER
+
+      at WebhooksService.log [as processCallWebhook] (services/webhooksService.js:60:17)
+
+    console.log
+      Webhook processed for call_id: PROVIDER_CALL_123, status: NO_ANSWER
+
+      at WebhooksService.log [as processCallWebhook] (services/webhooksService.js:60:17)
+
+    console.log
+      Webhook processed for call_id: PROVIDER_CALL_123, status: NO_ANSWER
+
+      at WebhooksService.log [as processCallWebhook] (services/webhooksService.js:60:17)
+
+    console.log
+      Webhook processed for call_id: PROVIDER_CALL_123, status: INITIATED
+
+      at WebhooksService.log [as processCallWebhook] (services/webhooksService.js:60:17)
+
+    console.log
+      Webhook processed for call_id: PROVIDER_CALL_123, status: INITIATED
+
+      at WebhooksService.log [as processCallWebhook] (services/webhooksService.js:60:17)
+
+    console.log
+      Webhook processed for call_id: PROVIDER_CALL_123, status: INITIATED
+
+      at WebhooksService.log [as processCallWebhook] (services/webhooksService.js:60:17)
+
+    console.log
+      Webhook processed for call_id: PROVIDER_CALL_123, status: INITIATED
+
+      at WebhooksService.log [as processCallWebhook] (services/webhooksService.js:60:17)
+
+    console.warn
+      CallLog not found for call_id: NON_EXISTENT_CALL
+
+    [0m [90m 15 |[39m         [36mif[39m ([33m![39mcallLog) {
+     [90m 16 |[39m             [90m// Log for debugging but don't fail - provider might send webhooks for calls not in our system[39m
+    [31m[1m>[22m[39m[90m 17 |[39m             console[33m.[39mwarn([32m`CallLog not found for call_id: ${call_id}`[39m)[33m;[39m
+     [90m    |[39m                     [31m[1m^[22m[39m
+     [90m 18 |[39m             [36mreturn[39m {
+     [90m 19 |[39m                 processed[33m:[39m [36mfalse[39m[33m,[39m
+     [90m 20 |[39m                 message[33m:[39m [32m'CallLog not found'[39m[33m,[39m[0m
+
+      at WebhooksService.warn [as processCallWebhook] (services/webhooksService.js:17:21)
+      at Object.<anonymous> (tests/integration/webhooks_processing.test.js:224:28)
+
+    console.log
+      Webhook processed for call_id: PROVIDER_CALL_123, status: COMPLETED
+
+      at WebhooksService.log [as processCallWebhook] (services/webhooksService.js:60:17)
+
+    console.log
+      Webhook processed for call_id: PROVIDER_CALL_123, status: COMPLETED
+
+      at WebhooksService.log [as processCallWebhook] (services/webhooksService.js:60:17)
+
+    console.log
+      Webhook processed for call_id: PROVIDER_CALL_123, status: INITIATED
+
+      at WebhooksService.log [as processCallWebhook] (services/webhooksService.js:60:17)
+
+PASS tests/integration/secure_call.test.js
+A worker process has failed to exit gracefully and has been force exited. This is likely caused by tests leaking due to improper teardown. Try running with --detectOpenHandles to find leaks. Active timers can also cause this, ensure that .unref() was called on them.
+
+Test Suites: 4 passed, 4 total
+Tests:       33 passed, 33 total
+Snapshots:   0 total
+Time:        5.389 s, estimated 8 s
+Ran all test suites matching tests/integration/secureFlow.test.js|tests/integration/webhooks_processing.test.js|tests/integration/secure_call.test.js|tests/integration/agents.test.js.

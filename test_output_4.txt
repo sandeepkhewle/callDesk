@@ -1,0 +1,24 @@
+
+> callerdesk-node@1.0.0 test
+> jest tests/integration/secure_call.test.js
+
+PASS tests/integration/secure_call.test.js
+  Phase 3: Secure Click-to-Call Tests
+    clickToCall - Security Tests
+      √ should reject when deskphone is provided (old API) (299 ms)
+      √ should fetch deskphone from agent internally (81 ms)
+      √ should reject call if agent does not exist (35 ms)
+      √ should reject if agent has no deskphone (33 ms)
+      √ should reject if agent belongs to different entity (32 ms)
+    CallLog Creation Tests
+      √ should create CallLog before making the call (42 ms)
+      √ should set initial status to INITIATED (26 ms)
+      √ should update CallLog with provider call_id (27 ms)
+    reserveClickToCall - Security Tests
+      √ should also use agentId and lookup deskphone (24 ms)
+
+Test Suites: 1 passed, 1 total
+Tests:       9 passed, 9 total
+Snapshots:   0 total
+Time:        3.584 s
+Ran all test suites matching tests/integration/secure_call.test.js.

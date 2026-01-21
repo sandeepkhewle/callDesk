@@ -7,8 +7,8 @@ class DashboardSummaryController {
     async getDashboardSummary(req, res, next) {
         try {
             console.log("dashboardSummary", req.body);
-            const { authcode } = req.body;
-            const data = await dashboardSummaryService.getDashboardSummary(authcode);
+            const { entityId } = req.body;
+            const data = await dashboardSummaryService.getDashboardSummary(entityId);
             res.success(data, 'Dashboard summary fetched successfully');
         } catch (error) {
             next(error);

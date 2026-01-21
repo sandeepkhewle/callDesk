@@ -11,18 +11,24 @@ describe('Entity Integration Tests', () => {
     });
 
     describe('POST /entities/create', () => {
-        it('should create an entity', async () => {
-            const mockBody = { name: 'Entity 1', authcode: 'code123', address: 'Address 1', phone: '1234567890' };
-            const mockResult = { ...mockBody, _id: 'e1' };
+        it('should create an entity successfully', async () => {
+            const mockEntity = {
+                name: 'Test Entity',
+                address: '123 Test St',
+                phone: '1234567890',
+                email: 'test@example.com',
+                companyId: 'comp_123'
+            };
+            const mockResult = { ...mockEntity, _id: 'e1' };
             entityService.createEntity.mockResolvedValue(mockResult);
 
             const res = await request(app)
                 .post('/entities/create')
-                .send(mockBody);
+                .send(mockEntity);
 
             expect(res.statusCode).toBe(201);
             expect(res.body.success).toBe(true);
-            expect(entityService.createEntity).toHaveBeenCalledWith(mockBody);
+            expect(entityService.createEntity).toHaveBeenCalledWith(mockEntity);
         });
     });
 

@@ -54,6 +54,19 @@ class EntityController {
     }
 
     /**
+     * Syncs IVR numbers from provider for an entity.
+     */
+    async syncIvrs(req, res, next) {
+        try {
+            const { entity_id } = req.body;
+            const data = await entityService.syncIvrs(entity_id);
+            res.success(data, 'IVRs synced successfully');
+        } catch (error) {
+            next(error);
+        }
+    }
+
+    /**
      * Deletes an entity.
      */
     async deleteEntity(req, res, next) {

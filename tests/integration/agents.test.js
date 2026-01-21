@@ -74,7 +74,7 @@ describe('Agents API Integration Tests', () => {
     describe('POST /agents/list', () => {
         it('should list agents', async () => {
             // Although validation middleware might enforce defaults/types
-            const query = { page: 1, limit: 10 };
+            const query = { page: 1, limit: 10, entityId: 'entity_123' };
             const mockList = { agents: [], total: 0 };
             agentsService.getAgents.mockResolvedValue(mockList);
 

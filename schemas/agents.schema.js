@@ -4,7 +4,15 @@ const createAgentSchema = Joi.object({
     name: Joi.string().min(2).max(100).required(),
     phone: Joi.string().pattern(/^[0-9]+$/).min(10).max(15).required(),
     entity_id: Joi.string().required(),
-    deskphone: Joi.string().allow('', null)
+    deskphone: Joi.string().allow('', null).required()
+});
+
+const createAgentV2Schema = Joi.object({
+    name: Joi.string().min(2).max(100).required(),
+    phone: Joi.string().pattern(/^[0-9]+$/).min(10).max(15).required(),
+    entity_id: Joi.string().required(),
+    employee_id: Joi.string().required(),
+    deskphone: Joi.string().allow('', null).optional()
 });
 
 const updateAgentSchema = Joi.object({
@@ -23,11 +31,13 @@ const linkDIDSchema = Joi.object({
 const getAgentsSchema = Joi.object({
     page: Joi.number().integer().min(1).default(1),
     limit: Joi.number().integer().min(1).max(100).default(50),
-    search: Joi.string().allow('')
+    search: Joi.string().allow(''),
+    entityId: Joi.string().required()
 });
 
 module.exports = {
     createAgentSchema,
+    createAgentV2Schema,
     updateAgentSchema,
     linkDIDSchema,
     getAgentsSchema

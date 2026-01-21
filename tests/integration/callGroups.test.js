@@ -12,7 +12,7 @@ describe('Call Groups Integration Tests', () => {
 
     describe('POST /callGroups/create', () => {
         it('should create a call group', async () => {
-            const mockBody = { authcode: 'key', name: 'Group 1', deskphone_id: 'did_1' };
+            const mockBody = { entityId: 'e1', name: 'Group 1', deskphone_id: 'did_1' };
             const serviceResponse = { ...mockBody, group_id: 'g1' };
             callGroupsService.createCallGroup.mockResolvedValue(serviceResponse);
 
@@ -28,7 +28,7 @@ describe('Call Groups Integration Tests', () => {
 
     describe('POST /callGroups/update', () => {
         it('should update a call group', async () => {
-            const mockBody = { authcode: 'key', group_id: 'g1', name: 'Group 1 Updated' };
+            const mockBody = { entityId: 'e1', group_id: 'g1', name: 'Group 1 Updated' };
             callGroupsService.updateCallGroup.mockResolvedValue(mockBody);
 
             const res = await request(app)
@@ -42,7 +42,7 @@ describe('Call Groups Integration Tests', () => {
 
     describe('POST /callGroups/list', () => {
         it('should list call groups', async () => {
-            const mockBody = { authcode: 'key', page: 1, limit: 10 };
+            const mockBody = { entityId: 'e1', page: 1, limit: 10 };
             const mockResult = { items: [], total: 0 };
             callGroupsService.getCallGroups.mockResolvedValue(mockResult);
 
@@ -58,7 +58,7 @@ describe('Call Groups Integration Tests', () => {
 
     describe('POST /callGroups/delete', () => {
         it('should delete a call group', async () => {
-            const mockBody = { authcode: 'key', group_id: 'g1' };
+            const mockBody = { entityId: 'e1', group_id: 'g1' };
             callGroupsService.deleteCallGroup.mockResolvedValue(true);
 
             const res = await request(app)

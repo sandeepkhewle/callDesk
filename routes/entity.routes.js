@@ -25,6 +25,9 @@ router.post('/list', upload.none(), validate(getEntitiesSchema), entityControlle
 // Get single entity by ID
 router.post('/get', upload.none(), validate(getEntityByIdSchema), entityController.getEntityById);
 
+// Sync IVRs for entity
+router.post('/sync-ivrs', upload.none(), validate(getEntityByIdSchema), entityController.syncIvrs);
+
 // Delete entity
 router.post('/delete', upload.none(), validate(deleteEntitySchema), entityController.deleteEntity);
 

@@ -14,7 +14,7 @@ describe('Calls API Integration Tests', () => {
         it('should initiate click to call', async () => {
             // check schema for required fields
             const mockBody = {
-                authcode: 'key',
+                entityId: 'e1',
                 calling_party_a: '100',
                 calling_party_b: '200',
                 deskphone: '300'
@@ -35,7 +35,7 @@ describe('Calls API Integration Tests', () => {
         it('should initiate click to call group', async () => {
             // check schema
             const mockBody = {
-                authcode: 'key',
+                entityId: 'e1',
                 calling_party_a: '100',
                 calling_party_b: '200',
                 deskphone: '300',
@@ -55,7 +55,7 @@ describe('Calls API Integration Tests', () => {
     describe('POST /calls/reserve-click-to-call', () => {
         it('should initiate reserve click to call', async () => {
             const mockBody = {
-                authcode: 'key',
+                entityId: 'e1',
                 calling_party_a: '100',
                 calling_party_b: '200',
                 deskphone: '300'
@@ -73,7 +73,7 @@ describe('Calls API Integration Tests', () => {
 
     describe('POST /calls/reports', () => {
         it('should get call reports', async () => {
-            const mockBody = { authcode: 'key' };
+            const mockBody = { entityId: 'e1' };
             const mockResult = [{ id: 1, duration: 60 }];
             callsService.callReport.mockResolvedValue(mockResult);
 
@@ -83,13 +83,13 @@ describe('Calls API Integration Tests', () => {
 
             expect(res.statusCode).toBe(200);
             expect(res.body.data).toEqual(mockResult);
-            expect(callsService.callReport).toHaveBeenCalledWith('key');
+            expect(callsService.callReport).toHaveBeenCalledWith('e1');
         });
     });
 
     describe('POST /calls/ivr-numbers', () => {
         it('should get ivr numbers', async () => {
-            const mockBody = { authcode: 'key' };
+            const mockBody = { entityId: 'e1' };
             const mockResult = ['123', '456'];
             callsService.getIvrNumbersList.mockResolvedValue(mockResult);
 
@@ -99,7 +99,7 @@ describe('Calls API Integration Tests', () => {
 
             expect(res.statusCode).toBe(200);
             expect(res.body.data).toEqual(mockResult);
-            expect(callsService.getIvrNumbersList).toHaveBeenCalledWith('key');
+            expect(callsService.getIvrNumbersList).toHaveBeenCalledWith('e1');
         });
     });
 });

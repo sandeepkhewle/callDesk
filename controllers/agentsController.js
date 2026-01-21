@@ -14,6 +14,19 @@ class AgentsController {
     }
 
     /**
+     * Creates a new agent with reuse logic (V2).
+     * Checks if agent exists by employee_id and entity_id, reuses if found.
+     */
+    async createAgentV2(req, res, next) {
+        try {
+            const data = await agentsService.createAgentV2(req.body);
+            res.success(data, 'Agent created/updated successfully', 201);
+        } catch (error) {
+            next(error);
+        }
+    }
+
+    /**
      * Validates agent creation data
      */
     async validateAgentCreation(req, res, next) {
@@ -47,8 +60,8 @@ class AgentsController {
      */
     async getAgents(req, res, next) {
         try {
-            const { page, limit } = req.body; // Validation middleware handles defaults/types
-            const data = await agentsService.getAgents({ page, limit });
+            const { page, limit, entityId } = req.body; // Validation middleware handles defaults/types
+            const data = await agentsService.getAgents({ page, limit, entityId });
             res.success(data, 'Agents fetched successfully');
         } catch (error) {
             next(error);
@@ -74,6 +87,19 @@ class AgentsController {
         try {
             const data = await agentsService.linkDID(req.body);
             res.success(data, 'DID linked successfully');
+        } catch (error) {
+            next(error);
+        }
+    }
+
+    /**
+     * Synchronizes agents for an entity.
+     */
+    async syncAgents(req, res, next) {
+        try {
+            const { entityId } = req.params;
+            const data = await agentsService.syncAgents(entityId);
+            res.success(data, 'Agents synchronized successfully');
         } catch (error) {
             next(error);
         }

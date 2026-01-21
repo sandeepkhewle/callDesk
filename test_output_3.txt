@@ -1,0 +1,184 @@
+
+> callerdesk-node@1.0.0 test
+> jest tests/integration/secure_call.test.js
+
+FAIL tests/integration/secure_call.test.js
+  Phase 3: Secure Click-to-Call Tests
+    clickToCall - Security Tests
+      √ should reject when deskphone is provided (old API) (222 ms)
+      × should fetch deskphone from agent internally (24 ms)
+      × should reject call if agent does not exist (25 ms)
+      × should reject if agent has no deskphone (15 ms)
+      × should reject if agent belongs to different entity (14 ms)
+    CallLog Creation Tests
+      × should create CallLog before making the call (12 ms)
+      × should set initial status to INITIATED (12 ms)
+      × should update CallLog with provider call_id (13 ms)
+    reserveClickToCall - Security Tests
+      × should also use agentId and lookup deskphone (12 ms)
+
+  ● Phase 3: Secure Click-to-Call Tests › clickToCall - Security Tests › should fetch deskphone from agent internally
+
+    MongoServerError: E11000 duplicate key error collection: test.ivrs index: number_1 dup key: { number: "18005550001" }
+
+    [0m [90m 66 |[39m         [90m// Create IVR record[39m
+     [90m 67 |[39m         [36mconst[39m [33mIVR[39m [33m=[39m require([32m'../../models/ivr.model'[39m)[33m;[39m
+    [31m[1m>[22m[39m[90m 68 |[39m         [36mawait[39m [36mnew[39m [33mIVR[39m({
+     [90m    |[39m         [31m[1m^[22m[39m
+     [90m 69 |[39m             entity[33m:[39m entity[33m.[39m_id[33m,[39m
+     [90m 70 |[39m             number[33m:[39m [32m'18005550001'[39m[33m,[39m
+     [90m 71 |[39m             status[33m:[39m [32m'ACTIVE'[39m[33m,[39m[0m
+
+      at InsertOneOperation.handleOk (node_modules/mongodb/src/operations/insert.ts:79:13)
+      at tryOperation (node_modules/mongodb/src/operations/execute_operation.ts:294:26)
+      at executeOperation (node_modules/mongodb/src/operations/execute_operation.ts:123:12)
+      at Collection.insertOne (node_modules/mongodb/src/collection.ts:294:12)
+      at model.$__save (node_modules/mongoose/lib/model.js:398:16)
+      at model.save (node_modules/mongoose/lib/model.js:609:5)
+      at Object.<anonymous> (tests/integration/secure_call.test.js:68:9)
+
+  ● Phase 3: Secure Click-to-Call Tests › clickToCall - Security Tests › should reject call if agent does not exist
+
+    MongoServerError: E11000 duplicate key error collection: test.ivrs index: number_1 dup key: { number: "18005550001" }
+
+    [0m [90m 66 |[39m         [90m// Create IVR record[39m
+     [90m 67 |[39m         [36mconst[39m [33mIVR[39m [33m=[39m require([32m'../../models/ivr.model'[39m)[33m;[39m
+    [31m[1m>[22m[39m[90m 68 |[39m         [36mawait[39m [36mnew[39m [33mIVR[39m({
+     [90m    |[39m         [31m[1m^[22m[39m
+     [90m 69 |[39m             entity[33m:[39m entity[33m.[39m_id[33m,[39m
+     [90m 70 |[39m             number[33m:[39m [32m'18005550001'[39m[33m,[39m
+     [90m 71 |[39m             status[33m:[39m [32m'ACTIVE'[39m[33m,[39m[0m
+
+      at InsertOneOperation.handleOk (node_modules/mongodb/src/operations/insert.ts:79:13)
+      at tryOperation (node_modules/mongodb/src/operations/execute_operation.ts:294:26)
+      at executeOperation (node_modules/mongodb/src/operations/execute_operation.ts:123:12)
+      at Collection.insertOne (node_modules/mongodb/src/collection.ts:294:12)
+      at model.$__save (node_modules/mongoose/lib/model.js:398:16)
+      at model.save (node_modules/mongoose/lib/model.js:609:5)
+      at Object.<anonymous> (tests/integration/secure_call.test.js:68:9)
+
+  ● Phase 3: Secure Click-to-Call Tests › clickToCall - Security Tests › should reject if agent has no deskphone
+
+    MongoServerError: E11000 duplicate key error collection: test.ivrs index: number_1 dup key: { number: "18005550001" }
+
+    [0m [90m 66 |[39m         [90m// Create IVR record[39m
+     [90m 67 |[39m         [36mconst[39m [33mIVR[39m [33m=[39m require([32m'../../models/ivr.model'[39m)[33m;[39m
+    [31m[1m>[22m[39m[90m 68 |[39m         [36mawait[39m [36mnew[39m [33mIVR[39m({
+     [90m    |[39m         [31m[1m^[22m[39m
+     [90m 69 |[39m             entity[33m:[39m entity[33m.[39m_id[33m,[39m
+     [90m 70 |[39m             number[33m:[39m [32m'18005550001'[39m[33m,[39m
+     [90m 71 |[39m             status[33m:[39m [32m'ACTIVE'[39m[33m,[39m[0m
+
+      at InsertOneOperation.handleOk (node_modules/mongodb/src/operations/insert.ts:79:13)
+      at tryOperation (node_modules/mongodb/src/operations/execute_operation.ts:294:26)
+      at executeOperation (node_modules/mongodb/src/operations/execute_operation.ts:123:12)
+      at Collection.insertOne (node_modules/mongodb/src/collection.ts:294:12)
+      at model.$__save (node_modules/mongoose/lib/model.js:398:16)
+      at model.save (node_modules/mongoose/lib/model.js:609:5)
+      at Object.<anonymous> (tests/integration/secure_call.test.js:68:9)
+
+  ● Phase 3: Secure Click-to-Call Tests › clickToCall - Security Tests › should reject if agent belongs to different entity
+
+    MongoServerError: E11000 duplicate key error collection: test.ivrs index: number_1 dup key: { number: "18005550001" }
+
+    [0m [90m 66 |[39m         [90m// Create IVR record[39m
+     [90m 67 |[39m         [36mconst[39m [33mIVR[39m [33m=[39m require([32m'../../models/ivr.model'[39m)[33m;[39m
+    [31m[1m>[22m[39m[90m 68 |[39m         [36mawait[39m [36mnew[39m [33mIVR[39m({
+     [90m    |[39m         [31m[1m^[22m[39m
+     [90m 69 |[39m             entity[33m:[39m entity[33m.[39m_id[33m,[39m
+     [90m 70 |[39m             number[33m:[39m [32m'18005550001'[39m[33m,[39m
+     [90m 71 |[39m             status[33m:[39m [32m'ACTIVE'[39m[33m,[39m[0m
+
+      at InsertOneOperation.handleOk (node_modules/mongodb/src/operations/insert.ts:79:13)
+      at tryOperation (node_modules/mongodb/src/operations/execute_operation.ts:294:26)
+      at executeOperation (node_modules/mongodb/src/operations/execute_operation.ts:123:12)
+      at Collection.insertOne (node_modules/mongodb/src/collection.ts:294:12)
+      at model.$__save (node_modules/mongoose/lib/model.js:398:16)
+      at model.save (node_modules/mongoose/lib/model.js:609:5)
+      at Object.<anonymous> (tests/integration/secure_call.test.js:68:9)
+
+  ● Phase 3: Secure Click-to-Call Tests › CallLog Creation Tests › should create CallLog before making the call
+
+    MongoServerError: E11000 duplicate key error collection: test.ivrs index: number_1 dup key: { number: "18005550001" }
+
+    [0m [90m 66 |[39m         [90m// Create IVR record[39m
+     [90m 67 |[39m         [36mconst[39m [33mIVR[39m [33m=[39m require([32m'../../models/ivr.model'[39m)[33m;[39m
+    [31m[1m>[22m[39m[90m 68 |[39m         [36mawait[39m [36mnew[39m [33mIVR[39m({
+     [90m    |[39m         [31m[1m^[22m[39m
+     [90m 69 |[39m             entity[33m:[39m entity[33m.[39m_id[33m,[39m
+     [90m 70 |[39m             number[33m:[39m [32m'18005550001'[39m[33m,[39m
+     [90m 71 |[39m             status[33m:[39m [32m'ACTIVE'[39m[33m,[39m[0m
+
+      at InsertOneOperation.handleOk (node_modules/mongodb/src/operations/insert.ts:79:13)
+      at tryOperation (node_modules/mongodb/src/operations/execute_operation.ts:294:26)
+      at executeOperation (node_modules/mongodb/src/operations/execute_operation.ts:123:12)
+      at Collection.insertOne (node_modules/mongodb/src/collection.ts:294:12)
+      at model.$__save (node_modules/mongoose/lib/model.js:398:16)
+      at model.save (node_modules/mongoose/lib/model.js:609:5)
+      at Object.<anonymous> (tests/integration/secure_call.test.js:68:9)
+
+  ● Phase 3: Secure Click-to-Call Tests › CallLog Creation Tests › should set initial status to INITIATED
+
+    MongoServerError: E11000 duplicate key error collection: test.ivrs index: number_1 dup key: { number: "18005550001" }
+
+    [0m [90m 66 |[39m         [90m// Create IVR record[39m
+     [90m 67 |[39m         [36mconst[39m [33mIVR[39m [33m=[39m require([32m'../../models/ivr.model'[39m)[33m;[39m
+    [31m[1m>[22m[39m[90m 68 |[39m         [36mawait[39m [36mnew[39m [33mIVR[39m({
+     [90m    |[39m         [31m[1m^[22m[39m
+     [90m 69 |[39m             entity[33m:[39m entity[33m.[39m_id[33m,[39m
+     [90m 70 |[39m             number[33m:[39m [32m'18005550001'[39m[33m,[39m
+     [90m 71 |[39m             status[33m:[39m [32m'ACTIVE'[39m[33m,[39m[0m
+
+      at InsertOneOperation.handleOk (node_modules/mongodb/src/operations/insert.ts:79:13)
+      at tryOperation (node_modules/mongodb/src/operations/execute_operation.ts:294:26)
+      at executeOperation (node_modules/mongodb/src/operations/execute_operation.ts:123:12)
+      at Collection.insertOne (node_modules/mongodb/src/collection.ts:294:12)
+      at model.$__save (node_modules/mongoose/lib/model.js:398:16)
+      at model.save (node_modules/mongoose/lib/model.js:609:5)
+      at Object.<anonymous> (tests/integration/secure_call.test.js:68:9)
+
+  ● Phase 3: Secure Click-to-Call Tests › CallLog Creation Tests › should update CallLog with provider call_id
+
+    MongoServerError: E11000 duplicate key error collection: test.ivrs index: number_1 dup key: { number: "18005550001" }
+
+    [0m [90m 66 |[39m         [90m// Create IVR record[39m
+     [90m 67 |[39m         [36mconst[39m [33mIVR[39m [33m=[39m require([32m'../../models/ivr.model'[39m)[33m;[39m
+    [31m[1m>[22m[39m[90m 68 |[39m         [36mawait[39m [36mnew[39m [33mIVR[39m({
+     [90m    |[39m         [31m[1m^[22m[39m
+     [90m 69 |[39m             entity[33m:[39m entity[33m.[39m_id[33m,[39m
+     [90m 70 |[39m             number[33m:[39m [32m'18005550001'[39m[33m,[39m
+     [90m 71 |[39m             status[33m:[39m [32m'ACTIVE'[39m[33m,[39m[0m
+
+      at InsertOneOperation.handleOk (node_modules/mongodb/src/operations/insert.ts:79:13)
+      at tryOperation (node_modules/mongodb/src/operations/execute_operation.ts:294:26)
+      at executeOperation (node_modules/mongodb/src/operations/execute_operation.ts:123:12)
+      at Collection.insertOne (node_modules/mongodb/src/collection.ts:294:12)
+      at model.$__save (node_modules/mongoose/lib/model.js:398:16)
+      at model.save (node_modules/mongoose/lib/model.js:609:5)
+      at Object.<anonymous> (tests/integration/secure_call.test.js:68:9)
+
+  ● Phase 3: Secure Click-to-Call Tests › reserveClickToCall - Security Tests › should also use agentId and lookup deskphone
+
+    MongoServerError: E11000 duplicate key error collection: test.ivrs index: number_1 dup key: { number: "18005550001" }
+
+    [0m [90m 66 |[39m         [90m// Create IVR record[39m
+     [90m 67 |[39m         [36mconst[39m [33mIVR[39m [33m=[39m require([32m'../../models/ivr.model'[39m)[33m;[39m
+    [31m[1m>[22m[39m[90m 68 |[39m         [36mawait[39m [36mnew[39m [33mIVR[39m({
+     [90m    |[39m         [31m[1m^[22m[39m
+     [90m 69 |[39m             entity[33m:[39m entity[33m.[39m_id[33m,[39m
+     [90m 70 |[39m             number[33m:[39m [32m'18005550001'[39m[33m,[39m
+     [90m 71 |[39m             status[33m:[39m [32m'ACTIVE'[39m[33m,[39m[0m
+
+      at InsertOneOperation.handleOk (node_modules/mongodb/src/operations/insert.ts:79:13)
+      at tryOperation (node_modules/mongodb/src/operations/execute_operation.ts:294:26)
+      at executeOperation (node_modules/mongodb/src/operations/execute_operation.ts:123:12)
+      at Collection.insertOne (node_modules/mongodb/src/collection.ts:294:12)
+      at model.$__save (node_modules/mongoose/lib/model.js:398:16)
+      at model.save (node_modules/mongoose/lib/model.js:609:5)
+      at Object.<anonymous> (tests/integration/secure_call.test.js:68:9)
+
+Test Suites: 1 failed, 1 total
+Tests:       8 failed, 1 passed, 9 total
+Snapshots:   0 total
+Time:        2.823 s, estimated 4 s
+Ran all test suites matching tests/integration/secure_call.test.js.

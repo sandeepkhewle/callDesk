@@ -45,8 +45,8 @@ class CallsController {
      */
     async callReports(req, res, next) {
         try {
-            const { authcode } = req.body;
-            const data = await callsService.callReport(authcode);
+            const { entityId } = req.body;
+            const data = await callsService.callReport(entityId);
             res.success(data, 'Call reports fetched successfully');
         } catch (error) {
             next(error);
@@ -58,8 +58,8 @@ class CallsController {
      */
     async getIvrNumbersList(req, res, next) {
         try {
-            const { authcode } = req.body;
-            const data = await callsService.getIvrNumbersList(authcode);
+            const { entityId } = req.body;
+            const data = await callsService.getIvrNumbersList(entityId);
             res.success(data, 'IVR numbers fetched successfully');
         } catch (error) {
             next(error);

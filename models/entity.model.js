@@ -28,14 +28,19 @@ const entitySchema = new mongoose.Schema({
         trim: true
     },
     authcode: {
-        type: String,
-        required: true,
-        index: true
+        type: String
     },
-    comapnyId: {
+    companyId: {
         type: String,
+        index: true,
+        unique: true
+    }, // third party company id/entity id
+    status: {
+        type: String,
+        enum: ['PENDING', 'ACTIVE', 'SUSPENDED'],
+        default: 'PENDING',
         index: true
-    } // third party company id/entity id
+    }
 }, { timestamps: true });
 
 module.exports = mongoose.model('Entity', entitySchema);

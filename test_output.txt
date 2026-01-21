@@ -1,0 +1,159 @@
+
+> callerdesk-node@1.0.0 test
+> jest tests/integration/secure_call.test.js
+
+FAIL tests/integration/secure_call.test.js
+  Phase 3: Secure Click-to-Call Tests
+    clickToCall - Security Tests
+      × should reject when deskphone is provided (old API) (196 ms)
+      × should fetch deskphone from agent internally (52 ms)
+      × should reject call if agent does not exist (12 ms)
+      × should reject if agent has no deskphone (11 ms)
+      × should reject if agent belongs to different entity (13 ms)
+    CallLog Creation Tests
+      × should create CallLog before making the call (8 ms)
+      × should set initial status to INITIATED (7 ms)
+      × should update CallLog with provider call_id (6 ms)
+    reserveClickToCall - Security Tests
+      × should also use agentId and lookup deskphone (5 ms)
+
+  ● Phase 3: Secure Click-to-Call Tests › clickToCall - Security Tests › should reject when deskphone is provided (old API)
+
+    API Key is required
+
+    [0m [90m 51 |[39m
+     [90m 52 |[39m         [36mif[39m ([33m![39mkey) {
+    [31m[1m>[22m[39m[90m 53 |[39m             [36mthrow[39m [36mnew[39m [33mError[39m([32m'API Key is required'[39m)[33m;[39m
+     [90m    |[39m                   [31m[1m^[22m[39m
+     [90m 54 |[39m         }
+     [90m 55 |[39m
+     [90m 56 |[39m         [36mconst[39m rawKey [33m=[39m key[33m;[39m[0m
+
+      at ApiKeyService.createApiKey (services/apiKeyService.js:53:19)
+      at Object.createApiKey (tests/integration/secure_call.test.js:48:45)
+
+  ● Phase 3: Secure Click-to-Call Tests › clickToCall - Security Tests › should fetch deskphone from agent internally
+
+    API Key is required
+
+    [0m [90m 51 |[39m
+     [90m 52 |[39m         [36mif[39m ([33m![39mkey) {
+    [31m[1m>[22m[39m[90m 53 |[39m             [36mthrow[39m [36mnew[39m [33mError[39m([32m'API Key is required'[39m)[33m;[39m
+     [90m    |[39m                   [31m[1m^[22m[39m
+     [90m 54 |[39m         }
+     [90m 55 |[39m
+     [90m 56 |[39m         [36mconst[39m rawKey [33m=[39m key[33m;[39m[0m
+
+      at ApiKeyService.createApiKey (services/apiKeyService.js:53:19)
+      at Object.createApiKey (tests/integration/secure_call.test.js:48:45)
+
+  ● Phase 3: Secure Click-to-Call Tests › clickToCall - Security Tests › should reject call if agent does not exist
+
+    API Key is required
+
+    [0m [90m 51 |[39m
+     [90m 52 |[39m         [36mif[39m ([33m![39mkey) {
+    [31m[1m>[22m[39m[90m 53 |[39m             [36mthrow[39m [36mnew[39m [33mError[39m([32m'API Key is required'[39m)[33m;[39m
+     [90m    |[39m                   [31m[1m^[22m[39m
+     [90m 54 |[39m         }
+     [90m 55 |[39m
+     [90m 56 |[39m         [36mconst[39m rawKey [33m=[39m key[33m;[39m[0m
+
+      at ApiKeyService.createApiKey (services/apiKeyService.js:53:19)
+      at Object.createApiKey (tests/integration/secure_call.test.js:48:45)
+
+  ● Phase 3: Secure Click-to-Call Tests › clickToCall - Security Tests › should reject if agent has no deskphone
+
+    API Key is required
+
+    [0m [90m 51 |[39m
+     [90m 52 |[39m         [36mif[39m ([33m![39mkey) {
+    [31m[1m>[22m[39m[90m 53 |[39m             [36mthrow[39m [36mnew[39m [33mError[39m([32m'API Key is required'[39m)[33m;[39m
+     [90m    |[39m                   [31m[1m^[22m[39m
+     [90m 54 |[39m         }
+     [90m 55 |[39m
+     [90m 56 |[39m         [36mconst[39m rawKey [33m=[39m key[33m;[39m[0m
+
+      at ApiKeyService.createApiKey (services/apiKeyService.js:53:19)
+      at Object.createApiKey (tests/integration/secure_call.test.js:48:45)
+
+  ● Phase 3: Secure Click-to-Call Tests › clickToCall - Security Tests › should reject if agent belongs to different entity
+
+    API Key is required
+
+    [0m [90m 51 |[39m
+     [90m 52 |[39m         [36mif[39m ([33m![39mkey) {
+    [31m[1m>[22m[39m[90m 53 |[39m             [36mthrow[39m [36mnew[39m [33mError[39m([32m'API Key is required'[39m)[33m;[39m
+     [90m    |[39m                   [31m[1m^[22m[39m
+     [90m 54 |[39m         }
+     [90m 55 |[39m
+     [90m 56 |[39m         [36mconst[39m rawKey [33m=[39m key[33m;[39m[0m
+
+      at ApiKeyService.createApiKey (services/apiKeyService.js:53:19)
+      at Object.createApiKey (tests/integration/secure_call.test.js:48:45)
+
+  ● Phase 3: Secure Click-to-Call Tests › CallLog Creation Tests › should create CallLog before making the call
+
+    API Key is required
+
+    [0m [90m 51 |[39m
+     [90m 52 |[39m         [36mif[39m ([33m![39mkey) {
+    [31m[1m>[22m[39m[90m 53 |[39m             [36mthrow[39m [36mnew[39m [33mError[39m([32m'API Key is required'[39m)[33m;[39m
+     [90m    |[39m                   [31m[1m^[22m[39m
+     [90m 54 |[39m         }
+     [90m 55 |[39m
+     [90m 56 |[39m         [36mconst[39m rawKey [33m=[39m key[33m;[39m[0m
+
+      at ApiKeyService.createApiKey (services/apiKeyService.js:53:19)
+      at Object.createApiKey (tests/integration/secure_call.test.js:48:45)
+
+  ● Phase 3: Secure Click-to-Call Tests › CallLog Creation Tests › should set initial status to INITIATED
+
+    API Key is required
+
+    [0m [90m 51 |[39m
+     [90m 52 |[39m         [36mif[39m ([33m![39mkey) {
+    [31m[1m>[22m[39m[90m 53 |[39m             [36mthrow[39m [36mnew[39m [33mError[39m([32m'API Key is required'[39m)[33m;[39m
+     [90m    |[39m                   [31m[1m^[22m[39m
+     [90m 54 |[39m         }
+     [90m 55 |[39m
+     [90m 56 |[39m         [36mconst[39m rawKey [33m=[39m key[33m;[39m[0m
+
+      at ApiKeyService.createApiKey (services/apiKeyService.js:53:19)
+      at Object.createApiKey (tests/integration/secure_call.test.js:48:45)
+
+  ● Phase 3: Secure Click-to-Call Tests › CallLog Creation Tests › should update CallLog with provider call_id
+
+    API Key is required
+
+    [0m [90m 51 |[39m
+     [90m 52 |[39m         [36mif[39m ([33m![39mkey) {
+    [31m[1m>[22m[39m[90m 53 |[39m             [36mthrow[39m [36mnew[39m [33mError[39m([32m'API Key is required'[39m)[33m;[39m
+     [90m    |[39m                   [31m[1m^[22m[39m
+     [90m 54 |[39m         }
+     [90m 55 |[39m
+     [90m 56 |[39m         [36mconst[39m rawKey [33m=[39m key[33m;[39m[0m
+
+      at ApiKeyService.createApiKey (services/apiKeyService.js:53:19)
+      at Object.createApiKey (tests/integration/secure_call.test.js:48:45)
+
+  ● Phase 3: Secure Click-to-Call Tests › reserveClickToCall - Security Tests › should also use agentId and lookup deskphone
+
+    API Key is required
+
+    [0m [90m 51 |[39m
+     [90m 52 |[39m         [36mif[39m ([33m![39mkey) {
+    [31m[1m>[22m[39m[90m 53 |[39m             [36mthrow[39m [36mnew[39m [33mError[39m([32m'API Key is required'[39m)[33m;[39m
+     [90m    |[39m                   [31m[1m^[22m[39m
+     [90m 54 |[39m         }
+     [90m 55 |[39m
+     [90m 56 |[39m         [36mconst[39m rawKey [33m=[39m key[33m;[39m[0m
+
+      at ApiKeyService.createApiKey (services/apiKeyService.js:53:19)
+      at Object.createApiKey (tests/integration/secure_call.test.js:48:45)
+
+Test Suites: 1 failed, 1 total
+Tests:       9 failed, 9 total
+Snapshots:   0 total
+Time:        2.749 s, estimated 4 s
+Ran all test suites matching tests/integration/secure_call.test.js.

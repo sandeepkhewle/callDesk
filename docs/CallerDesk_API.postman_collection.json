@@ -75,7 +75,7 @@
                 {
                     "name": "Update Agent",
                     "request": {
-                        "method": "POST",
+                        "method": "PUT",
                         "header": [],
                         "body": {
                             "mode": "raw",
@@ -107,7 +107,7 @@
                         "header": [],
                         "body": {
                             "mode": "raw",
-                            "raw": "{\n    \"page\": 1,\n    \"limit\": 50\n}",
+                            "raw": "{\n    \"page\": 1,\n    \"limit\": 50,\n    \"entityId\": \"entity_123\"\n}",
                             "options": {
                                 "raw": {
                                     "language": "json"
@@ -157,7 +157,7 @@
                     "response": []
                 },
                 {
-                    "name": "Link Deskphone",
+                    "name": "Link DID",
                     "request": {
                         "method": "POST",
                         "header": [],
@@ -171,13 +171,13 @@
                             }
                         },
                         "url": {
-                            "raw": "{{base_url}}/agents/link-deskphone",
+                            "raw": "{{base_url}}/agents/link-did",
                             "host": [
                                 "{{base_url}}"
                             ],
                             "path": [
                                 "agents",
-                                "link-deskphone"
+                                "link-did"
                             ]
                         },
                         "description": "Links a DID deskphone number to an agent."
@@ -196,7 +196,7 @@
                         "header": [],
                         "body": {
                             "mode": "raw",
-                            "raw": "{\n    \"authcode\": \"your_api_key\",\n    \"name\": \"Support Team\",\n    \"deskphone_id\": \"desk_123\"\n}",
+                            "raw": "{\n    \"entityId\": \"entity_123\",\n    \"name\": \"Support Team\",\n    \"deskphone_id\": \"desk_123\"\n}",
                             "options": {
                                 "raw": {
                                     "language": "json"
@@ -224,7 +224,7 @@
                         "header": [],
                         "body": {
                             "mode": "raw",
-                            "raw": "{\n    \"group_id\": \"group_123\",\n    \"name\": \"Sales Team\"\n}",
+                            "raw": "{\n    \"group_id\": \"group_123\",\n    \"name\": \"Sales Team\",\n    \"entityId\": \"entity_123\"\n}",
                             "options": {
                                 "raw": {
                                     "language": "json"
@@ -252,7 +252,7 @@
                         "header": [],
                         "body": {
                             "mode": "raw",
-                            "raw": "{\n    \"authcode\": \"your_api_key\",\n    \"page\": 1,\n    \"limit\": 50\n}",
+                            "raw": "{\n    \"entityId\": \"entity_123\",\n    \"page\": 1,\n    \"limit\": 50\n}",
                             "options": {
                                 "raw": {
                                     "language": "json"
@@ -280,7 +280,7 @@
                         "header": [],
                         "body": {
                             "mode": "raw",
-                            "raw": "{\n    \"authcode\": \"your_api_key\",\n    \"group_id\": \"group_123\"\n}",
+                            "raw": "{\n    \"entityId\": \"entity_123\",\n    \"group_id\": \"group_123\"\n}",
                             "options": {
                                 "raw": {
                                     "language": "json"
@@ -309,11 +309,11 @@
                 {
                     "name": "Click to Call",
                     "request": {
-                        "method": "GET",
+                        "method": "POST",
                         "header": [],
                         "body": {
                             "mode": "raw",
-                            "raw": "{\n    \"calling_party_a\": \"agent_number\",\n    \"calling_party_b\": \"receiver_number\",\n    \"deskphone\": \"deskphone_number\",\n    \"authcode\": \"your_api_key\"\n}",
+                            "raw": "{\n    \"calling_party_b\": \"receiver_number\",\n    \"agentId\": \"agent_123\",\n    \"entityId\": \"entity_123\"\n}",
                             "options": {
                                 "raw": {
                                     "language": "json"
@@ -321,13 +321,13 @@
                             }
                         },
                         "url": {
-                            "raw": "{{base_url}}/calls/clickToCall",
+                            "raw": "{{base_url}}/calls/click-to-call",
                             "host": [
                                 "{{base_url}}"
                             ],
                             "path": [
                                 "calls",
-                                "clickToCall"
+                                "click-to-call"
                             ]
                         },
                         "description": "Initiates a click-to-call session."
@@ -337,11 +337,11 @@
                 {
                     "name": "Click to Call via Group",
                     "request": {
-                        "method": "GET",
+                        "method": "POST",
                         "header": [],
                         "body": {
                             "mode": "raw",
-                            "raw": "{\n    \"calling_party_a\": \"agent_number\",\n    \"calling_party_b\": \"receiver_number\",\n    \"deskphone\": \"deskphone_number\",\n    \"authcode\": \"your_api_key\",\n    \"group_name\": \"Support\"\n}",
+                            "raw": "{\n    \"calling_party_a\": \"agent_number\",\n    \"calling_party_b\": \"receiver_number\",\n    \"deskphone\": \"deskphone_number\",\n    \"entityId\": \"entity_123\",\n    \"group_name\": \"Support\"\n}",
                             "options": {
                                 "raw": {
                                     "language": "json"
@@ -349,13 +349,13 @@
                             }
                         },
                         "url": {
-                            "raw": "{{base_url}}/calls/clickToCallViaCallGroup",
+                            "raw": "{{base_url}}/calls/click-to-call-group",
                             "host": [
                                 "{{base_url}}"
                             ],
                             "path": [
                                 "calls",
-                                "clickToCallViaCallGroup"
+                                "click-to-call-group"
                             ]
                         },
                         "description": "Initiates a click-to-call via a specific call group."
@@ -365,11 +365,11 @@
                 {
                     "name": "Reserve Click to Call",
                     "request": {
-                        "method": "GET",
+                        "method": "POST",
                         "header": [],
                         "body": {
                             "mode": "raw",
-                            "raw": "{\n    \"calling_party_a\": \"receiver_number\",\n    \"calling_party_b\": \"agent_number\",\n    \"deskphone\": \"deskphone_number\",\n    \"authcode\": \"your_api_key\"\n}",
+                            "raw": "{\n    \"calling_party_b\": \"receiver_number\",\n    \"agentId\": \"agent_123\",\n    \"entityId\": \"entity_123\"\n}",
                             "options": {
                                 "raw": {
                                     "language": "json"
@@ -377,13 +377,13 @@
                             }
                         },
                         "url": {
-                            "raw": "{{base_url}}/calls/reserveClickToCall",
+                            "raw": "{{base_url}}/calls/reserve-click-to-call",
                             "host": [
                                 "{{base_url}}"
                             ],
                             "path": [
                                 "calls",
-                                "reserveClickToCall"
+                                "reserve-click-to-call"
                             ]
                         },
                         "description": "Initiates a reserve click-to-call (reverse direction)."
@@ -397,7 +397,7 @@
                         "header": [],
                         "body": {
                             "mode": "raw",
-                            "raw": "{\n    \"authcode\": \"your_api_key\"\n}",
+                            "raw": "{\n    \"entityId\": \"entity_123\"\n}",
                             "options": {
                                 "raw": {
                                     "language": "json"
@@ -405,13 +405,13 @@
                             }
                         },
                         "url": {
-                            "raw": "{{base_url}}/calls/callReport",
+                            "raw": "{{base_url}}/calls/reports",
                             "host": [
                                 "{{base_url}}"
                             ],
                             "path": [
                                 "calls",
-                                "callReport"
+                                "reports"
                             ]
                         },
                         "description": "Retrieves call reports."
@@ -425,7 +425,7 @@
                         "header": [],
                         "body": {
                             "mode": "raw",
-                            "raw": "{\n    \"authcode\": \"your_api_key\"\n}",
+                            "raw": "{\n    \"entityId\": \"entity_123\"\n}",
                             "options": {
                                 "raw": {
                                     "language": "json"
@@ -433,13 +433,13 @@
                             }
                         },
                         "url": {
-                            "raw": "{{base_url}}/calls/ivrNumbersList",
+                            "raw": "{{base_url}}/calls/ivr-numbers",
                             "host": [
                                 "{{base_url}}"
                             ],
                             "path": [
                                 "calls",
-                                "ivrNumbersList"
+                                "ivr-numbers"
                             ]
                         },
                         "description": "Retrieves the list of IVR numbers."
@@ -458,7 +458,7 @@
                         "header": [],
                         "body": {
                             "mode": "raw",
-                            "raw": "{\n    \"authcode\": \"your_api_key\"\n}",
+                            "raw": "{\n    \"entityId\": \"entity_123\"\n}",
                             "options": {
                                 "raw": {
                                     "language": "json"
@@ -491,7 +491,7 @@
                         "header": [],
                         "body": {
                             "mode": "raw",
-                            "raw": "{\n    \"name\": \"New Entity\",\n    \"address\": \"123 Main St\",\n    \"phone\": \"0000000000\",\n    \"authcode\": \"generated_authcode\"\n}",
+                            "raw": "{\n    \"name\": \"New Entity\",\n    \"address\": \"123 Main St\",\n    \"phone\": \"0000000000\"\n}",
                             "options": {
                                 "raw": {
                                     "language": "json"
@@ -593,6 +593,34 @@
                             ]
                         },
                         "description": "Retrieves a single entity by ID."
+                    },
+                    "response": []
+                },
+                {
+                    "name": "Sync IVRs",
+                    "request": {
+                        "method": "POST",
+                        "header": [],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\n    \"entity_id\": \"entity_123\"\n}",
+                            "options": {
+                                "raw": {
+                                    "language": "json"
+                                }
+                            }
+                        },
+                        "url": {
+                            "raw": "{{base_url}}/entities/sync-ivrs",
+                            "host": [
+                                "{{base_url}}"
+                            ],
+                            "path": [
+                                "entities",
+                                "sync-ivrs"
+                            ]
+                        },
+                        "description": "Syncs IVRs for an entity."
                     },
                     "response": []
                 },

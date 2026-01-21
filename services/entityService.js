@@ -1,8 +1,14 @@
 const Entity = require('../models/entity.model');
+const IVR = require('../models/ivr.model');
+const apiKeyService = require('./apiKeyService');
+const axios = require('axios');
+
+const BASE_URL = process.env.CALLERDESK_BASE_URL;
+
 
 class EntityService {
     async createEntity(entityData) {
-        const { name, address, phone, email, website, description, authcode, comapnyId } = entityData;
+        const { name, address, phone, email, website, description, companyId } = entityData;
 
         const entity = new Entity({
             name,
@@ -11,16 +17,16 @@ class EntityService {
             email,
             website,
             description,
-            authcode,
-            comapnyId
+            companyId
         });
 
         await entity.save();
+
         return entity;
     }
 
     async updateEntity(entityData) {
-        const { entity_id, name, address, phone, email, website, description, authcode, comapnyId } = entityData;
+        const { entity_id, name, address, phone, email, website, description, authcode, companyId } = entityData;
 
         const updatedEntity = await Entity.findByIdAndUpdate(
             entity_id,
@@ -32,7 +38,7 @@ class EntityService {
                 website,
                 description,
                 authcode,
-                comapnyId
+                companyId
             },
             { new: true }
         );
@@ -73,6 +79,16 @@ class EntityService {
         }
 
         return entity;
+    }
+
+    /**
+     * Syncs IVR numbers from the calling provider and stores them locally
+     * @param {string} entityId - The entity ID to sync IVRs for
+     * @returns {Promise<Object>} - Sync result with counts
+     */
+    async syncIvrs(entityId) {
+        const ivrSyncService = require('./ivrSyncService');
+        return await ivrSyncService.syncIvrsForEntity(entityId);
     }
 
     async deleteEntity(entityData) {

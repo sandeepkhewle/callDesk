@@ -24,16 +24,9 @@ describe('Full Integration Flow: Entity -> Key -> Call', () => {
     });
 
     test('clickToCall should use Encrypted Key from Entity', async () => {
-        const fakeAuthCode = 'AUTH_123';
         const fakeEntityId = new mongoose.Types.ObjectId();
-        const fakeEntity = {
-            _id: fakeEntityId,
-            authcode: fakeAuthCode,
-            name: 'Test Entity'
-        };
 
-        // 1. Mock Entity.findOne to return our entity
-        jest.spyOn(Entity, 'findOne').mockResolvedValue(fakeEntity);
+        // 1. (Entity.findOne is no longer needed in callsService)
 
         // 2. Create a REAL encrypted key to test apiKeyService decryption
         // We can use the service itself to generate the valid encrypted payload, 
@@ -67,16 +60,18 @@ describe('Full Integration Flow: Entity -> Key -> Call', () => {
             calling_party_a: '100',
             calling_party_b: '200',
             deskphone: '300',
-            authcode: fakeAuthCode
+            entityId: fakeEntityId.toString()
         });
 
         // 5. Verification
-        expect(Entity.findOne).toHaveBeenCalledWith({ authcode: fakeAuthCode });
-        expect(ApiKey.findOne).toHaveBeenCalledWith({ entity: fakeEntityId, isActive: true });
+        expect(ApiKey.findOne).toHaveBeenCalledWith({ entity: fakeEntityId.toString(), isActive: true });
 
         // The most important check: Did axios get the Raw Key?
         const axiosCall = axios.get.mock.calls[0];
         const config = axiosCall[1];
         expect(config.headers['Authorization']).toBe(rawKey);
+        // Also check if authcode param in URL is set to rawKey
+        const url = axiosCall[0];
+        expect(url).toContain(`authcode=${rawKey}`);
     });
 });

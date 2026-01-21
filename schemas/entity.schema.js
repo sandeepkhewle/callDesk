@@ -2,13 +2,12 @@ const Joi = require('joi');
 
 const createEntitySchema = Joi.object({
     name: Joi.string().min(2).max(100).required(),
-    authcode: Joi.string().required(),
     address: Joi.string().allow('', null),
     phone: Joi.string().pattern(/^[0-9]+$/).min(10).max(15).allow('', null),
     email: Joi.string().email().allow('', null),
     website: Joi.string().uri().allow('', null),
     description: Joi.string().allow('', null),
-    comapnyId: Joi.string().allow('', null) // Note: user typo 'comapnyId' preserved from controller
+    companyId: Joi.string().allow('', null).required() // Note: user typo 'comapnyId' fixed
 });
 
 const updateEntitySchema = Joi.object({
@@ -20,7 +19,7 @@ const updateEntitySchema = Joi.object({
     email: Joi.string().email().allow('', null),
     website: Joi.string().uri().allow('', null),
     description: Joi.string().allow('', null),
-    comapnyId: Joi.string().allow('', null)
+    companyId: Joi.string().allow('', null)
 }).min(2);
 
 const getEntitiesSchema = Joi.object({
