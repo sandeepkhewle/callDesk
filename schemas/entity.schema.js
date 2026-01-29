@@ -7,6 +7,7 @@ const createEntitySchema = Joi.object({
     email: Joi.string().email().allow('', null),
     website: Joi.string().uri().allow('', null),
     description: Joi.string().allow('', null),
+    fileUrl: Joi.string().uri().allow('', null),
     companyId: Joi.string().allow('', null).required() // Note: user typo 'comapnyId' fixed
 });
 
@@ -19,6 +20,8 @@ const updateEntitySchema = Joi.object({
     email: Joi.string().email().allow('', null),
     website: Joi.string().uri().allow('', null),
     description: Joi.string().allow('', null),
+    fileUrl: Joi.string().uri().allow('', null),
+    status: Joi.string().valid('PENDING', 'ACTIVE', 'SUSPENDED'),
     companyId: Joi.string().allow('', null)
 }).min(2);
 

@@ -31,11 +31,20 @@ class CallGroupsService {
     }
 
     async updateCallGroup(callGroupData) {
-        const { entityId } = callGroupData;
+        const { entityId, name, ...otherData } = callGroupData;
         const apiKey = await this._getApiKey(entityId);
 
+        const payload = {
+            ...otherData,
+            authcode: apiKey
+        };
+
+        if (name) {
+            payload.group_name = name;
+        }
+
         const response = await axios.post(`${BASE_URL}/updategroup_v2`,
-            { ...callGroupData, authcode: apiKey }, // inject authcode/apiKey into payload
+            payload,
             {
                 headers: {
                     'Authorization': `${apiKey}`,

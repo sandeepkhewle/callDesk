@@ -3,6 +3,7 @@ const multer = require('multer');
 const callGroupsController = require('../controllers/callGroupsController');
 const validate = require('../middleware/validation.middleware');
 const {
+    Schema,
     createCallGroupSchema,
     updateCallGroupSchema,
     getCallGroupsSchema,

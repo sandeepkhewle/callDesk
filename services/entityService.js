@@ -8,7 +8,7 @@ const BASE_URL = process.env.CALLERDESK_BASE_URL;
 
 class EntityService {
     async createEntity(entityData) {
-        const { name, address, phone, email, website, description, companyId } = entityData;
+        const { name, address, phone, email, website, description, companyId, fileUrl } = entityData;
 
         const entity = new Entity({
             name,
@@ -17,7 +17,8 @@ class EntityService {
             email,
             website,
             description,
-            companyId
+            companyId,
+            fileUrl
         });
 
         await entity.save();
@@ -26,7 +27,7 @@ class EntityService {
     }
 
     async updateEntity(entityData) {
-        const { entity_id, name, address, phone, email, website, description, authcode, companyId } = entityData;
+        const { entity_id, name, address, phone, email, website, description, authcode, companyId, status, fileUrl } = entityData;
 
         const updatedEntity = await Entity.findByIdAndUpdate(
             entity_id,
@@ -38,7 +39,9 @@ class EntityService {
                 website,
                 description,
                 authcode,
-                companyId
+                companyId,
+                status,
+                fileUrl
             },
             { new: true }
         );

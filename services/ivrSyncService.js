@@ -78,7 +78,7 @@ class IVRSyncService {
 
         return {
             success: true,
-            entity: entity.name,
+            entity: { ...entity },
             synced: {
                 created,
                 updated,

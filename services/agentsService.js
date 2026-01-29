@@ -95,33 +95,33 @@ class AgentsService {
             }
             return agents;
         } else {
-            // const response = await axios.post(`${this.BASE_URL}/addmember_v2`, {
-            //     authcode: apiKey, // Use the dynamic key as authcode payload if required by API logic, OR just header?
-            //     // Original code sent `authcode: this.API_KEY` in body AND header.
-            //     // We will send dynamic key in both to match legacy behavior.
-            //     member_name: name,
-            //     member_num: phone,
-            //     access: 2,
-            //     active: 1
-            // }, {
-            //     headers: {
-            //         'Authorization': `${apiKey}`,
-            //         'Content-Type': 'application/x-www-form-urlencoded'
-            //     }
-            // }).catch((error) => {
-            //     console.error('Error adding member:', error);
-            //     throw error;
-            // });
+            const response = await axios.post(`${this.BASE_URL}/addmember_v2`, {
+                authcode: apiKey, // Use the dynamic key as authcode payload if required by API logic, OR just header?
+                // Original code sent `authcode: this.API_KEY` in body AND header.
+                // We will send dynamic key in both to match legacy behavior.
+                member_name: name,
+                member_num: phone,
+                access: 2,
+                active: 1
+            }, {
+                headers: {
+                    'Authorization': `${apiKey}`,
+                    'Content-Type': 'application/x-www-form-urlencoded'
+                }
+            }).catch((error) => {
+                console.error('Error adding member:', error);
+                throw error;
+            });
 
-            // if (!response.data?.type == 'error') {
-            //     throw new Error(response.data?.message);
-            // }
+            if (!response.data?.type == 'error') {
+                throw new Error(response.data?.message);
+            }
 
             // Save to local database only after successful API call and getting member_id
             const agent = new Agent({
                 deskphone: deskphone,
                 entity: entity_id,
-                user_id: "60610",
+                user_id: response.data?.getmember[0]?.member_id,
                 name,
                 phone,
                 access: 2,

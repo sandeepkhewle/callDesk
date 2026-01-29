@@ -30,6 +30,10 @@ const entitySchema = new mongoose.Schema({
     authcode: {
         type: String
     },
+    fileUrl: {
+        type: String,
+        trim: true
+    },
     companyId: {
         type: String,
         index: true,

@@ -31,14 +31,6 @@ class ApiKeyService {
     }
 
     /**
-     * Generates a random secure API key.
-     * @returns {string}
-     */
-    generateKey() {
-        return crypto.randomBytes(32).toString('hex');
-    }
-
-    /**
      * Creates a new API key for an entity.
      * @param {Object} data
      * @param {string} data.entityId
