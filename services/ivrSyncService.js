@@ -76,9 +76,20 @@ class IVRSyncService {
             }
         }
 
+        // Return the actual stored IVR numbers plus the raw provider response
+        // so callers (and the UI) can display them / debug an empty provider account.
+        const stored = await this.getIVRsByEntity(entityId);
         return {
             success: true,
             entity: { ...entity },
+            ivrNumbers: stored.map(i => ({
+                ivrNumber: i.number,
+                status: i.status,
+                deskPhoneId: i.did_id,
+                did_number: i.did_number,
+                account_id: i.account_id
+            })),
+            providerRaw: response.data,
             synced: {
                 created,
                 updated,

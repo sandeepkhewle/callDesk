@@ -8,7 +8,7 @@ const BASE_URL = process.env.CALLERDESK_BASE_URL;
 
 class EntityService {
     async createEntity(entityData) {
-        const { name, address, phone, email, website, description, companyId, fileUrl } = entityData;
+        const { name, address, phone, email, website, description, companyId, fileUrl, key } = entityData;
 
         const entity = new Entity({
             name,
@@ -23,11 +23,24 @@ class EntityService {
 
         await entity.save();
 
+        // Save the API key against the newly created entity.
+        // If key storage fails, roll back the entity so we never leave an entity without a key.
+        try {
+            await apiKeyService.createApiKey({
+                entityId: entity._id,
+                name: `${name} API Key`,
+                key
+            });
+        } catch (err) {
+            await Entity.findByIdAndDelete(entity._id);
+            throw new Error(`Entity created but failed to save API key: ${err.message}`);
+        }
+
         return entity;
     }
 
     async updateEntity(entityData) {
-        const { entity_id, name, address, phone, email, website, description, authcode, companyId, status, fileUrl } = entityData;
+        const { entity_id, name, address, phone, email, website, description, authcode, companyId, status, fileUrl, key } = entityData;
 
         const updatedEntity = await Entity.findByIdAndUpdate(
             entity_id,
@@ -48,6 +61,21 @@ class EntityService {
 
         if (!updatedEntity) {
             throw new Error('Entity not found');
+        }
+
+        // If a new API key is provided, upsert it against this entity
+        if (key) {
+            const existingKeys = await apiKeyService.getApiKeysByEntity(entity_id);
+            const activeKey = existingKeys.find(k => k.isActive) || existingKeys[0];
+            if (activeKey) {
+                await apiKeyService.updateApiKey({ id: activeKey._id, key });
+            } else {
+                await apiKeyService.createApiKey({
+                    entityId: entity_id,
+                    name: `${name || 'Entity'} API Key`,
+                    key
+                });
+            }
         }
 
         return updatedEntity;

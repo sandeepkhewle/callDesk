@@ -8,7 +8,8 @@ const createEntitySchema = Joi.object({
     website: Joi.string().uri().allow('', null),
     description: Joi.string().allow('', null),
     fileUrl: Joi.string().uri().allow('', null),
-    companyId: Joi.string().allow('', null).required() // Note: user typo 'comapnyId' fixed
+    companyId: Joi.string().allow('', null).required(), // Note: user typo 'comapnyId' fixed
+    key: Joi.string().min(10).required() // CallerDesk provider API key (mandatory)
 });
 
 const updateEntitySchema = Joi.object({
@@ -22,7 +23,8 @@ const updateEntitySchema = Joi.object({
     description: Joi.string().allow('', null),
     fileUrl: Joi.string().uri().allow('', null),
     status: Joi.string().valid('PENDING', 'ACTIVE', 'SUSPENDED'),
-    companyId: Joi.string().allow('', null)
+    companyId: Joi.string().allow('', null),
+    key: Joi.string().min(10) // Optional API key update
 }).min(2);
 
 const getEntitiesSchema = Joi.object({
